@@ -16,6 +16,11 @@ BST *createBST(int (*cmp)(void *, void *), void (*print)(void *), void (*freeDat
 
 BSTNode *bstInsert(BSTNode *root, void *data, int (*cmp)(void *, void *))
 {
+    int value =cmp(root->data,data);
+    if (root->left==NULL && root->right==NULL)
+    {
+        
+    }
     
 }
 
