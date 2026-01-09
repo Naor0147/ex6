@@ -26,5 +26,6 @@ void bstFree(BSTNode *root, void (*freeData)(void *));
 
 // Custom
 void DeleteTree(BST *tree); // delete The tree and free the memory
+void freeAllNodes(BSTNode *treeNode,void (*freeData)(void *));
 
 #endif
