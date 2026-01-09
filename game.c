@@ -42,3 +42,8 @@ static void displayMap(GameState* g) {
     for (int i = 0; i < height; i++) free(grid[i]);
     free(grid);
 }
+
+void addRoom(GameState *g)
+{
+    
+}
