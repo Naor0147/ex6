@@ -27,7 +27,9 @@ BSTNode *bstInsert(BSTNode *root, void *data, int (*cmp)(void *, void *))
         return newNode;
     }
 
-    int value = cmp(root->data, data);
+    int value = cmp(root->data, data);//return postive if left > right ,negtive if left<right , 0 left==right 
+
+
     if (value >0)
     {
         root->left = bstInsert(root->left, data, cmp);
@@ -82,7 +84,27 @@ void deleteTree(BST *tree)
 
 void *bstFind(BSTNode *root, void *data, int (*cmp)(void *, void *))
 {
+    //if data was'nt found
+    if (root == NULL)
+    {
+        return;
+    }
 
+    int value = cmp(root->data, data);//return postive if left > right ,negtive if left<right , 0 left==right 
+    if (value==0)//found
+    {
+        return root;
+    }
+
+    if (value >0)
+    {
+        //data is smaller then root data 
+        return bstFind(root->left,data,cmp);
+    }
+    //data is bigger than root data 
+    return bstFind(root->left,data,cmp);
+    
+    
 
 }
 
