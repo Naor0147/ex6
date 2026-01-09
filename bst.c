@@ -14,6 +14,10 @@ BST *createBST(int (*cmp)(void *, void *), void (*print)(void *), void (*freeDat
     return newTree;
 }
 
+
+
+
+
 // Delete root Data and free memory
 void bstFree(BSTNode *root, void (*freeData)(void *))
 {
