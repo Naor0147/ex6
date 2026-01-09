@@ -14,13 +14,15 @@ BST *createBST(int (*cmp)(void *, void *), void (*print)(void *), void (*freeDat
     return newTree;
 }
 
-//return 
+//return the root it was send but update it 
 BSTNode *bstInsert(BSTNode *root, void *data, int (*cmp)(void *, void *))
 {
     if (root=NULL)
     {
         root= (BSTNode *)malloc(sizeof(BSTNode));
-        
+        root->data=data;
+        root->left=NULL;
+        root->right=NULL;
     }
     int value =cmp(root->data,data);
 
