@@ -19,6 +19,7 @@ BSTNode *bstInsert(BSTNode *root, void *data, int (*cmp)(void *, void *))
 {
     if (root==NULL)
     {
+        //
         BSTNode* newNode= (BSTNode *)malloc(sizeof(BSTNode));
         newNode->data=data;
         newNode->left=NULL;
@@ -31,6 +32,13 @@ BSTNode *bstInsert(BSTNode *root, void *data, int (*cmp)(void *, void *))
     {
         root->left= bstInsert(root->left,data,cmp);
     }
+    else
+    {
+        root->right=bstInsert(root->right,data,cmp);
+    }
+
+    //return the updaed root
+    return root;
     
     
 }
