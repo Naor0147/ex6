@@ -13,3 +13,10 @@ BST *createBST(int (*cmp)(void *, void *), void (*print)(void *), void (*freeDat
     newTree->root = NULL; //the root start as empty
     return newTree;
 }
+
+//Deletes The Tree and frees all the memory
+void DeleteTree(BST *tree)
+{
+
+    free(tree);
+}
