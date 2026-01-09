@@ -70,7 +70,7 @@ int main()
     // Initialize BST
     // You likely have a function like init_bst(compare, print, free)
     // Adjust the function name below to match your bst.h exactly!
-    BST *tree = init_bst(compare_items, print_item, free_item);
+    BST *tree = createBST(compare_items, print_item, free_item);
 
     // Test Data
     printf("Inserting items...\n");
