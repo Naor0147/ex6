@@ -14,36 +14,32 @@ BST *createBST(int (*cmp)(void *, void *), void (*print)(void *), void (*freeDat
     return newTree;
 }
 
-//return the root it was send but update it 
+// return the root it was send but update it
 BSTNode *bstInsert(BSTNode *root, void *data, int (*cmp)(void *, void *))
 {
-    if (root==NULL)
+    if (root == NULL)
     {
-        //if root null need to create a root node 
-        BSTNode* newNode= (BSTNode *)malloc(sizeof(BSTNode));
-        newNode->data=data;
-        newNode->left=NULL;
-        newNode->right=NULL;
+        // if root null need to create a root node
+        BSTNode *newNode = (BSTNode *)malloc(sizeof(BSTNode));
+        newNode->data = data;
+        newNode->left = NULL;
+        newNode->right = NULL;
         return newNode;
     }
-    
-    int value =cmp(root->data,data);
-    if (value==LEFT_IS_BIGGER)
+
+    int value = cmp(root->data, data);
+    if (value == LEFT_IS_BIGGER)
     {
-        root->left= bstInsert(root->left,data,cmp);
+        root->left = bstInsert(root->left, data, cmp);
     }
     else // if data is bigger than root data (should Not be equal)
     {
-        root->right=bstInsert(root->right,data,cmp);
+        root->right = bstInsert(root->right, data, cmp);
     }
 
-    //return the updaed root
+    // return the updaed root
     return root;
-    
-    
 }
-
-
 
 // Delete root Data and free memory
 void bstFree(BSTNode *root, void (*freeData)(void *))
@@ -73,16 +69,15 @@ void bstFree(BSTNode *root, void (*freeData)(void *))
 }
 
 // free all the nodes
-void freeAllNodes(BSTNode *treeNode,void (*freeData)(void *))
+void freeAllNodes(BSTNode *treeNode, void (*freeData)(void *))
 {
     if (treeNode == NULL)
     {
         return;
     }
 
-    
-    freeAllNodes(treeNode->left,freeData);
-    freeAllNodes(treeNode->right,freeData);
+    freeAllNodes(treeNode->left, freeData);
+    freeAllNodes(treeNode->right, freeData);
 
     bstFree((treeNode), freeData);
 }
@@ -90,6 +85,6 @@ void freeAllNodes(BSTNode *treeNode,void (*freeData)(void *))
 // Deletes The Tree and frees all the memory
 void deleteTree(BST *tree)
 {
-    freeAllNodes(tree->root,tree->freeData);
+    freeAllNodes(tree->root, tree->freeData);
     free(tree);
 }
