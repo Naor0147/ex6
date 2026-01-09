@@ -19,6 +19,10 @@ BSTNode *bstInsert(BSTNode *root, void *data, int (*cmp)(void *, void *))
     int value =cmp(root->data,data);
     if (root->left==NULL && root->right==NULL)
     {
+        if (value)
+        {
+            /* code */
+        }
         
     }
     
