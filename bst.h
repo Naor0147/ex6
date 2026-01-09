@@ -1,6 +1,11 @@
 #ifndef BST_H
 #define BST_H
 
+//custom 
+#define LEFT_IS_BIGGER 1
+#define RIGHT_IS_BIGGER -1
+#define EQUAL 0
+
 typedef struct BSTNode
 {
     void *data;
