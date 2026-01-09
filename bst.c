@@ -19,7 +19,7 @@ BSTNode *bstInsert(BSTNode *root, void *data, int (*cmp)(void *, void *))
 {
     if (root==NULL)
     {
-        //
+        //if root null need to create a root node 
         BSTNode* newNode= (BSTNode *)malloc(sizeof(BSTNode));
         newNode->data=data;
         newNode->left=NULL;
@@ -32,7 +32,7 @@ BSTNode *bstInsert(BSTNode *root, void *data, int (*cmp)(void *, void *))
     {
         root->left= bstInsert(root->left,data,cmp);
     }
-    else
+    else // if data is bigger than root data (should Not be equal)
     {
         root->right=bstInsert(root->right,data,cmp);
     }
