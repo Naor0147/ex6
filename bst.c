@@ -121,8 +121,8 @@ void bstPreorder(BSTNode *root, void (*print)(void *))
         return;
     }
     print(root->data);
-    bstInorder(root->left,print);
-    bstInorder(root->right,print);
+    bstPreorder(root->left,print);
+    bstPreorder(root->right,print);
 }
 //print left->right->node
 void bstPostorder(BSTNode *root, void (*print)(void *)){
@@ -131,8 +131,8 @@ void bstPostorder(BSTNode *root, void (*print)(void *)){
     {
         return;
     }
-    bstInorder(root->left,print);
-    bstInorder(root->right,print);
+    bstPostorder(root->left,print);
+    bstPostorder(root->right,print);
     print(root->data);
 
 }
