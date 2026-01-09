@@ -14,17 +14,16 @@ BST *createBST(int (*cmp)(void *, void *), void (*print)(void *), void (*freeDat
     return newTree;
 }
 
+//return 
 BSTNode *bstInsert(BSTNode *root, void *data, int (*cmp)(void *, void *))
 {
-    int value =cmp(root->data,data);
-    if (root->left==NULL && root->right==NULL)
+    if (root=NULL)
     {
-        if (value)
-        {
-            /* code */
-        }
+        root= (BSTNode *)malloc(sizeof(BSTNode));
         
     }
+    int value =cmp(root->data,data);
+
     
 }
 
