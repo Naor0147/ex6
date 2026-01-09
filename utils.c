@@ -8,7 +8,7 @@
 char* getString(const char* prompt)
 {
     printf("%s\n",prompt);
-    return getStringScanf;
+    return getStringScanf();
 }
 
 
