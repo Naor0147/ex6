@@ -14,7 +14,8 @@ BST *createBST(int (*cmp)(void *, void *), void (*print)(void *), void (*freeDat
     return newTree;
 }
 
-BSTNode *bstInsert(BSTNode *root, void *data, int (*cmp)(void *, void *)){
+BSTNode *bstInsert(BSTNode *root, void *data, int (*cmp)(void *, void *))
+{
     
 }
 
