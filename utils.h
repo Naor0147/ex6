@@ -4,4 +4,7 @@
 int getInt(const char* prompt);
 char* getString(const char* prompt);
 
+//custom 
+char *getStringScanf();
+
 #endif
