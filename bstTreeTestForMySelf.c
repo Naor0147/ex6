@@ -1,103 +1,128 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "bst.h"
 
-// --- 1. Mock Data Structure (Simulating an Item) ---
-typedef struct
-{
-    char *name;
-    int value;
-    int type; // 0 for ARMOR, 1 for SWORD
-} MockItem;
+// --- Helper Functions for Integer Data ---
 
-// --- 2. Implement Helper Functions (Required by BST) ---
-
-// Create a new mock item
-MockItem *create_item(const char *name, int value, int type)
+// Compare two integers
+// Returns > 0 if a > b, < 0 if a < b, 0 if a == b
+int compareInts(void *a, void *b)
 {
-    MockItem *new_item = (MockItem *)malloc(sizeof(MockItem));
-    new_item->name = strdup(name); // Uses string.h (allowed)
-    new_item->value = value;
-    new_item->type = type;
-    return new_item;
+    int intA = *(int *)a;
+    int intB = *(int *)b;
+    return intA - intB;
 }
 
-// Compare function: Name -> Value -> Type
-int compare_items(void *a, void *b)
+// Print an integer
+void printInt(void *data)
 {
-    MockItem *itemA = (MockItem *)a;
-    MockItem *itemB = (MockItem *)b;
+    printf("%d ", *(int *)data);
+}
 
-    // 1. Compare Names
-    int nameObj = strcmp(itemA->name, itemB->name);
-    if (nameObj != 0)
-        return nameObj;
+// Free an integer
+void freeInt(void *data)
+{
+    free(data);
+}
 
-    // 2. Compare Values (If names are equal)
-    if (itemA->value != itemB->value)
+// Wrapper to allocate memory for an int and insert it into the tree
+// We MUST allocate memory because deleteTree calls freeData()
+void insertIntValue(BST *tree, int value)
+{
+    int *newData = (int *)malloc(sizeof(int));
+    if (!newData)
     {
-        return itemA->value - itemB->value;
+        printf("Memory allocation failed!\n");
+        exit(1);
     }
-
-    // 3. Compare Type (If values are equal)
-    return itemA->type - itemB->type;
+    *newData = value;
+    
+    // Note: We must update tree->root because the root might change (if tree was empty)
+    tree->root = bstInsert(tree->root, newData, tree->compare);
 }
 
-// Print function
-void print_item(void *data)
-{
-    MockItem *item = (MockItem *)data;
-    printf("[%s] Val:%d Type:%d\n", item->name, item->value, item->type);
-}
+// --- Main Test Driver ---
 
-// Free function
-void free_item(void *data)
-{
-    MockItem *item = (MockItem *)data;
-    if (item)
-    {
-        free(item->name); // Free the internal string
-        free(item);       // Free the struct itself
-    }
-}
-
-// --- 3. Main Test Loop ---
 int main()
 {
-    printf("=== Starting BST Test ===\n");
+    printf("--- Starting BST Test ---\n");
 
-    // Initialize BST
-    // You likely have a function like init_bst(compare, print, free)
-    // Adjust the function name below to match your bst.h exactly!
-    BST *tree = createBST(compare_items, print_item, free_item);
+    // 1. Create the BST
+    BST *tree = createBST(compareInts, printInt, freeInt);
+    if (tree == NULL)
+    {
+        printf("Failed to create tree.\n");
+        return 1;
+    }
+    printf("Tree created successfully.\n");
 
-    // Test Data
-    printf("Inserting items...\n");
-    // Should go to Root
-    insert(tree, create_item("Midas", 10, 1));
-    // Should go Left (Alphabetically 'A' < 'M')
-    insert(tree, create_item("Armor", 5, 0));
-    // Should go Right (Alphabetically 'Z' > 'M')
-    insert(tree, create_item("Zelda", 10, 1));
-    // Duplicate Name test: Same name, diff value
-    // 'Midas', 5 < 10 -> Should go Left of Root
-    insert(tree, create_item("Midas", 5, 1));
+    // 2. Insert Data
+    // Tree structure plan:
+    //      10
+    //     /  \
+    //    5    15
+    //   / \   / \
+    //  3   7 12  18
+    
+    printf("Inserting values: 10, 5, 15, 3, 7, 12, 18\n");
+    insertIntValue(tree, 10);
+    insertIntValue(tree, 5);
+    insertIntValue(tree, 15);
+    insertIntValue(tree, 3);
+    insertIntValue(tree, 7);
+    insertIntValue(tree, 12);
+    insertIntValue(tree, 18);
 
-    // Test Traversals
-    printf("\n--- Preorder (Root, Left, Right) ---\n");
-    print_tree(tree, 0); // Assuming 0 is Preorder enum/const
+    // 3. Test Traversals
+    printf("\n--- Traversals ---\n");
+    
+    printf("Inorder (Should be sorted): ");
+    bstInorder(tree->root, printInt);
+    printf("\n");
 
-    printf("\n--- Inorder (Left, Root, Right) ---\n");
-    print_tree(tree, 1); // Assuming 1 is Inorder
+    printf("Preorder (Root first):      ");
+    bstPreorder(tree->root, printInt);
+    printf("\n");
 
-    printf("\n--- Postorder (Left, Right, Root) ---\n");
-    print_tree(tree, 2); // Assuming 2 is Postorder
+    printf("Postorder (Root last):      ");
+    bstPostorder(tree->root, printInt);
+    printf("\n");
 
-    // Clean up
-    printf("\nFreeing tree...\n");
-    free_tree(tree); // Ensure this frees nodes AND data
+    // 4. Test Find
+    printf("\n--- Testing Find ---\n");
+    
+    int valToFind = 7;
+    int valNotPresent = 99;
 
-    printf("Test finished. Run with Valgrind to check for leaks.\n");
+    // We pass &valToFind just for comparison logic; the tree won't free this pointer
+    int *result = (int *)bstFind(tree->root, &valToFind, compareInts);
+    
+    if (result != NULL && *result == 7)
+    {
+        printf("PASS: Found value %d\n", *result);
+    }
+    else
+    {
+        printf("FAIL: Could not find value %d\n", valToFind);
+    }
+
+    result = (int *)bstFind(tree->root, &valNotPresent, compareInts);
+    if (result == NULL)
+    {
+        printf("PASS: Correctly returned NULL for missing value %d\n", valNotPresent);
+    }
+    else
+    {
+        printf("FAIL: Found value %d but it should not exist\n", valNotPresent);
+    }
+
+    // 5. Memory Cleanup
+    printf("\n--- Testing Cleanup ---\n");
+    printf("Deleting tree (and freeing all integer data)...\n");
+    deleteTree(tree);
+    
+    printf("Tree deleted. If you see this, no crashes occurred during free().\n");
+    printf("Run with Valgrind to ensure no memory leaks.\n");
+
     return 0;
 }
