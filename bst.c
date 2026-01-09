@@ -54,17 +54,6 @@ void bstFree(BSTNode *root, void (*freeData)(void *))
         freeData(root->data);
     }
 
-    if (root->left != NULL)
-    {
-        free(root->left);
-        root->left = NULL;
-    }
-    if (root->right != NULL)
-    {
-        free(root->right);
-        root->right = NULL;
-    }
-
     free(root);
 }
 
