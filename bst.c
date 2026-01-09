@@ -113,5 +113,27 @@ void bstInorder(BSTNode *root, void (*print)(void *)){
     bstInorder(root->right,print);
 }
 
-void bstPreorder(BSTNode *root, void (*print)(void *));
-void bstPostorder(BSTNode *root, void (*print)(void *));
+//print node->left ->right
+void bstPreorder(BSTNode *root, void (*print)(void *))
+{
+    if (root==NULL)
+    {
+        return;
+    }
+    print(root->data);
+    bstInorder(root->left,print);
+    bstInorder(root->right,print);
+}
+//print left->right->node
+void bstPostorder(BSTNode *root, void (*print)(void *)){
+{
+    if (root==NULL)
+    {
+        return;
+    }
+    bstInorder(root->left,print);
+    bstInorder(root->right,print);
+    print(root->data);
+
+}
+}
