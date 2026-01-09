@@ -23,6 +23,7 @@ BSTNode *bstInsert(BSTNode *root, void *data, int (*cmp)(void *, void *))
         newNode->data=data;
         newNode->left=NULL;
         newNode->right=NULL;
+        return newNode;
     }
     
 
