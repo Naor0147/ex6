@@ -1,10 +1,6 @@
 #ifndef BST_H
 #define BST_H
 
-//custom 
-#define LEFT_IS_BIGGER 1
-#define RIGHT_IS_BIGGER -1
-#define EQUAL 0
 
 typedef struct BSTNode
 {
@@ -16,7 +12,7 @@ typedef struct BSTNode
 typedef struct
 {
     BSTNode *root;
-    int (*compare)(void *, void *);//return 1 if left > right ,-1 if left<right , 0 left==right 
+    int (*compare)(void *, void *);//return postive if left > right ,negtive if left<right , 0 left==right 
     void (*print)(void *);
     void (*freeData)(void *);
 } BST;

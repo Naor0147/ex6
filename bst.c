@@ -28,7 +28,7 @@ BSTNode *bstInsert(BSTNode *root, void *data, int (*cmp)(void *, void *))
     }
 
     int value = cmp(root->data, data);
-    if (value == LEFT_IS_BIGGER)
+    if (value >0)
     {
         root->left = bstInsert(root->left, data, cmp);
     }
