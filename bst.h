@@ -11,7 +11,7 @@ typedef struct BSTNode
 typedef struct
 {
     BSTNode *root;
-    int (*compare)(void *, void *);
+    int (*compare)(void *, void *);//return 1 if left > right ,-1 if left<right , 0 left==right 
     void (*print)(void *);
     void (*freeData)(void *);
 } BST;
