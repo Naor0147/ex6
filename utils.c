@@ -32,3 +32,20 @@ char *getStringScanf()
     string[stringSize - 1] = 0; // end of file
     return string;              // return the pointer to the string
 }
+
+
+void clearBuffer()
+{
+    int leftOverChar;
+
+    while (1)
+    {
+        leftOverChar = getchar();
+
+        // If we hit a newline or the end of the input stops the program
+        if (leftOverChar == '\n' || leftOverChar == EOF)
+        {
+            return;
+        }
+    }
+}
