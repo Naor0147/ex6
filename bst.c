@@ -77,3 +77,17 @@ void deleteTree(BST *tree)
     freeAllNodes(tree->root, tree->freeData);
     free(tree);
 }
+
+
+
+void *bstFind(BSTNode *root, void *data, int (*cmp)(void *, void *))
+{
+
+
+}
+
+
+
+void bstInorder(BSTNode *root, void (*print)(void *));
+void bstPreorder(BSTNode *root, void (*print)(void *));
+void bstPostorder(BSTNode *root, void (*print)(void *));
