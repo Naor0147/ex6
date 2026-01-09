@@ -102,6 +102,16 @@ void *bstFind(BSTNode *root, void *data, int (*cmp)(void *, void *))
     return bstFind(root->right, data, cmp);
 }
 
-void bstInorder(BSTNode *root, void (*print)(void *));
+//print left->root->right
+void bstInorder(BSTNode *root, void (*print)(void *)){
+    if (root==NULL)
+    {
+        return;
+    }
+    bstInorder(root->left,print);
+    print(root->data);
+    bstInorder(root->right,print);
+}
+
 void bstPreorder(BSTNode *root, void (*print)(void *));
 void bstPostorder(BSTNode *root, void (*print)(void *));
