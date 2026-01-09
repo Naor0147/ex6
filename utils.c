@@ -10,7 +10,7 @@ char* getString(const char* prompt)
     int stringSize = strlen(prompt)+1;
     char *string = (char *)malloc(stringSize * (sizeof(char)));
     strcpy(string,prompt);
-    
+    return string;
 }
 
 
