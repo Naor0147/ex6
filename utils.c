@@ -4,6 +4,8 @@
 #include "utils.h"
 
 
+int getInt(const char* prompt);
+
 
 char* getString(const char* prompt)
 {
