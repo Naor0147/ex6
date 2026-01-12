@@ -57,11 +57,14 @@ static void displayMap(GameState *g)
     free(grid);
 }
 
+GameState initGameState();
+
 void addRoom(GameState *g)
 {
-    if (g == NULL)
+    if (g->roomCount == 0)
     {
-
+        Room *newRoom = createRoom(0, 0, 0);
+        addRoomHelperGameState(g, newRoom);
         return;
     }
 
@@ -104,46 +107,55 @@ void addRoom(GameState *g)
         return;
     }
 
-    // if we got here it means the it is a valid room placement
+    Room *newRoom = createRoom(x, y, g->roomCount);
+    addRoomHelperGameState(g, newRoom);
+    return;
+}
+
+Room *createRoom(int x, int y, int roomCount)
+{
     int userAddMonster = getInt("Add monster? (1=Yes, 0=No): ");
     Monster *monster = addMonsterFunction(userAddMonster);
     int userAddItem = getInt("Add item? (1=Yes, 0=No): ");
-    Item *item = addItem(userAddItem);
+    Item *item = addItemFunction(userAddItem);
 
     // create the room
     Room *newRoom = (Room *)malloc(sizeof(Room));
-    newRoom->id = g->roomCount;
+    newRoom->id = roomCount;
     newRoom->x = x;
     newRoom->y = y;
-    newRoom->visited=FALSE;
-    newRoom->monster=monster;
-    newRoom->item=item;
+    newRoom->visited = FALSE;
+    newRoom->monster = monster;
+    newRoom->item = item;
 
-    addRoomHelper(g,newRoom);
-    return;
-    
+    newRoom->next = NULL;
+
+    return newRoom;
 }
 
-void addRoomHelper(GameState *g, Room *roomToAdd)
+void addRoomHelperGameState(GameState *g, Room *roomToAdd)
 {
-    // empty gamesate
+
     if (g == NULL)
-    {
         return;
-    }
-    // no rooms
+
+    // If list is empty, new room becomes head
     if (g->rooms == NULL)
     {
         g->rooms = roomToAdd;
-        ++(g->roomCount);
-        return;
     }
-    // find the last id
-    Room *theLastRoom = findRoomByID(g->rooms, g->roomCount - 1);
+    else
+    {
+        // Iterate to the end of the list using pointers
+        Room *current = g->rooms;
+        while (current->next != NULL)
+        {
+            current = current->next;
+        }
+        current->next = roomToAdd;
+    }
 
-    theLastRoom->next = roomToAdd;
-    ++(g->roomCount);
-    return;
+    g->roomCount++;
 }
 
 Room *findRoomByID(Room *Room, int id)
@@ -195,15 +207,19 @@ Monster *addMonsterFunction(int userInputValue)
 
     return newMonster;
 }
-
-void RemoveMonster(Monster *monsterToRemove)
+void freeMonster(void *data)
 {
-    if (monsterToRemove == NULL)
+    if (data == NULL)
     {
         return;
     }
+    Monster *monsterToRemove = (Monster *)data;
     // frees the name from the memory
-    free(monsterToRemove->name);
+    if (monsterToRemove->name != NULL)
+    {
+        free(monsterToRemove->name);
+    }
+
     free(monsterToRemove);
     return;
 }
@@ -228,4 +244,65 @@ Item *addItemFunction(int userInputValue)
     newItem->value = itemValue;
 
     return newItem;
+}
+
+void freeItem(void *data)
+{
+    if (data == NULL)
+    {
+        return;
+    }
+    Item *ItemToRemove = (Item *)data;
+    // frees the name from the memory
+    if (ItemToRemove->name != NULL)
+    {
+        free(ItemToRemove->name);
+    }
+
+    free(ItemToRemove);
+    return;
+}
+
+void removeRoomFromGameState(GameState *g, Room *roomToRemove)
+{
+    if (g == NULL || g->rooms == NULL || roomToRemove == NULL)
+    {
+        return;
+    }
+
+    // Removing the head (first node)
+    if (g->rooms == roomToRemove)
+    {
+        g->rooms = roomToRemove->next;
+        removeRoomFromMemory(roomToRemove);
+        g->roomCount--; // update count
+        return;
+    }
+
+    // removing from middle or end
+    Room *current = g->rooms;
+    // looks at the next node in order to check if equal
+    while (current->next != NULL && current->next != roomToRemove)
+    {
+        current = current->next;
+    }
+
+    // If we found it
+    if (current->next == roomToRemove)
+    {
+        current->next = roomToRemove->next; // Unlink it
+        removeRoomFromMemory(roomToRemove);
+        g->roomCount--;
+    }
+}
+void removeRoomFromMemory(Room *roomToRemove)
+{
+    if (roomToRemove == NULL)
+    {
+        return;
+    }
+    freeMonster(roomToRemove->monster);
+    freeItem(roomToRemove->item);
+    free(roomToRemove);
+    return;
 }

@@ -27,7 +27,7 @@ typedef enum
 } directions;
 // their value are set automatly (0=Up,1=Down,2=Left,3=Right)
 #define TRUE 1
-#define FALSE 1
+#define FALSE 0
 
 typedef struct Item
 {
@@ -91,6 +91,22 @@ void playGame(GameState *g);
 void freeGame(GameState *g);
 
 // custom
-Room *findRoomByID(Room *Room, int id);
+
+// Room Management
+void addRoom(GameState *g);
+Room *createRoom(int x, int y, int roomCount);
+void addRoomHelperGameState(GameState *g, Room *roomToAdd);
+void removeRoomFromGameState(GameState *g, Room *roomToRemove);
+
+// Search Functions
+Room *findRoomByID(Room *head, int id);
+Room *findRoomByPostion(Room *head, int x, int y);
+
+// Entity Creation
+Monster *addMonsterFunction(int userInputValue);
+Item *addItemFunction(int userInputValue);
+
+// Memory & Utils
+void removeRoomFromMemory(Room *roomToRemove);
 
 #endif
