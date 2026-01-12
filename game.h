@@ -3,63 +3,94 @@
 
 #include "bst.h"
 
-typedef enum { ARMOR, SWORD } ItemType;
-typedef enum { PHANTOM, SPIDER, DEMON, GOLEM, COBRA } MonsterType;
+typedef enum
+{
+    ARMOR,
+    SWORD
+} ItemType;
+typedef enum
+{
+    PHANTOM,
+    SPIDER,
+    DEMON,
+    GOLEM,
+    COBRA
+} MonsterType;
 
-typedef struct Item {
-    char* name;
+// custom
+typedef enum
+{
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+} directions;
+// their value are set automatly (0=Up,1=Down,2=Left,3=Right)
+#define TRUE 1
+#define FALSE 1
+
+typedef struct Item
+{
+    char *name;
     ItemType type;
     int value;
 } Item;
 
-typedef struct Monster {
-    char* name;
+typedef struct Monster
+{
+    char *name;
     MonsterType type;
     int hp;
     int maxHp;
     int attack;
 } Monster;
 
-typedef struct Room {
+typedef struct Room
+{
     int id;
     int x, y;
     int visited;
-    Monster* monster;
-    Item* item;
-    struct Room* next;
+    Monster *monster;
+    Item *item;
+    struct Room *next;
 } Room;
 
-typedef struct Player {
+typedef struct Player
+{
     int hp;
     int maxHp;
     int baseAttack;
-    BST* bag;
-    BST* defeatedMonsters;
-    Room* currentRoom;
+    BST *bag;
+    BST *defeatedMonsters;
+    Room *currentRoom;
 } Player;
 
-typedef struct {
-    Room* rooms;
-    Player* player;
+typedef struct
+{
+    Room *rooms;
+    Player *player;
     int roomCount;
     int configMaxHp;
     int configBaseAttack;
 } GameState;
 
 // Monster functions
-void freeMonster(void* data);
-int compareMonsters(void* a, void* b);
-void printMonster(void* data);
+void freeMonster(void *data);
+int compareMonsters(void *a, void *b);
+void printMonster(void *data);
 
 // Item functions
-void freeItem(void* data);
-int compareItems(void* a, void* b);
-void printItem(void* data);
+void freeItem(void *data);
+int compareItems(void *a, void *b);
+void printItem(void *data);
 
 // Game functions
-void addRoom(GameState* g);
-void initPlayer(GameState* g);
-void playGame(GameState* g);
-void freeGame(GameState* g);
+void addRoom(GameState *g);
+void initPlayer(GameState *g);
+void playGame(GameState *g);
+void freeGame(GameState *g);
+
+// custom
+Room *findRoomByID(Room *Room, int id);
 
 #endif

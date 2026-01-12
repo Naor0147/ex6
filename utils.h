@@ -6,6 +6,7 @@ char* getString(const char* prompt);
 
 //custom 
 char *getStringScanf();
-void clearBuffer()
+
+void clearBuffer();
 
 #endif

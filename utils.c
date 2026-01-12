@@ -3,18 +3,22 @@
 #include <string.h>
 #include "utils.h"
 
-
-int getInt(const char* prompt);
-
-
-char* getString(const char* prompt)
+int getInt(const char *prompt)
 {
-    printf("%s\n",prompt);
+    printf("\n%s", prompt);
+    int value;
+    scanf("%d", &value);
+    clearBuffer();
+    return value;
+}
+
+char *getString(const char *prompt)
+{
+    printf("%s\n", prompt);
     return getStringScanf();
 }
 
-
-// get string from buffer 
+// get string from buffer
 char *getStringScanf()
 {
     int stringSize = 1; // start from 1 to save \0
@@ -32,7 +36,6 @@ char *getStringScanf()
     string[stringSize - 1] = 0; // end of file
     return string;              // return the pointer to the string
 }
-
 
 void clearBuffer()
 {
