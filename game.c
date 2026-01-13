@@ -69,12 +69,28 @@ static void displayMap(GameState *g)
     
 }
 
+// Helper function to print legend in descending order (Recursive)
+static void printLegendRecursive(Room* room)
+{
+    if (room == NULL)
+        return;
+
+    // Recurse first to reach the end of the list
+    printLegendRecursive(room->next);
+
+    // Print details on the way back (creating descending order)
+    char monsterStatus = (room->monster != NULL) ? 'V' : 'X';
+    char itemStatus = (room->item != NULL) ? 'V' : 'X';
+    
+    printf("ID %d: [M:%c] [I:%c]\n", room->id, monsterStatus, itemStatus);
+}
+
 void printRoomDeatlis(Room * room){
     if (room==NULL)
     {
         return;
     }
-    
+
     
 }
 
