@@ -374,5 +374,14 @@ void removeRoomFromMemory(Room *roomToRemove)
 
 
 void initPlayer(GameState *g){
+    if (g==NULL)
+    {
+        return;
+    }
+    Player* newPlayer=(Player * )malloc(sizeof(Player));
+    newPlayer->maxHp=g->configMaxHp;
+    newPlayer->hp=g->configMaxHp;
+    newPlayer->baseAttack=g->configBaseAttack;
+    newPlayer->currentRoom=g->rooms;
     
 }
