@@ -61,7 +61,23 @@ static void displayMap(GameState *g)
     {
         printRoomLegand(g);
     }
+
+    if (g->player!=NULL)
+    {
+        /* code */
+    }
+    
 }
+
+void printRoomDeatlis(Room * room){
+    if (room==NULL)
+    {
+        return;
+    }
+    
+    
+}
+
 
 void printRoomLegand(GameState *g)
 {
