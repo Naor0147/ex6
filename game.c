@@ -4,6 +4,23 @@
 #include "game.h"
 #include "utils.h"
 
+// Helper function to print legend in descending order (Recursive)
+static void printLegendRecursive(Room* room)
+{
+    if (room == NULL)
+        return;
+
+    // Recurse first to reach the end of the list
+    printLegendRecursive(room->next);
+
+    // Print details on the way back (creating descending order)
+    char monsterStatus = (room->monster != NULL) ? 'V' : 'X';
+    char itemStatus = (room->item != NULL) ? 'V' : 'X';
+    
+    printf("ID %d: [M:%c] [I:%c]\n", room->id, monsterStatus, itemStatus);
+}
+
+
 // Map display functions
 static void displayMap(GameState *g)
 {
@@ -59,7 +76,10 @@ static void displayMap(GameState *g)
     //new
     if (g->roomCount > 0)
     {
-        printRoomLegand(g);
+
+        printf("=== ROOM LEGEND ===\n");
+        printLegendRecursive(g->rooms);
+        printf("===================\n");
     }
 
     if (g->player!=NULL)
@@ -69,21 +89,8 @@ static void displayMap(GameState *g)
     
 }
 
-// Helper function to print legend in descending order (Recursive)
-static void printLegendRecursive(Room* room)
-{
-    if (room == NULL)
-        return;
 
-    // Recurse first to reach the end of the list
-    printLegendRecursive(room->next);
 
-    // Print details on the way back (creating descending order)
-    char monsterStatus = (room->monster != NULL) ? 'V' : 'X';
-    char itemStatus = (room->item != NULL) ? 'V' : 'X';
-    
-    printf("ID %d: [M:%c] [I:%c]\n", room->id, monsterStatus, itemStatus);
-}
 
 void printRoomDeatlis(Room * room){
     if (room==NULL)
@@ -95,33 +102,7 @@ void printRoomDeatlis(Room * room){
 }
 
 
-void printRoomLegand(GameState *g)
-{
-    if (g == NULL)
-    {
-        return;
-    }
 
-    printf("=== ROOM LEGEND ===\n");
-
-    for (int i = g->roomCount - 1; i >= 0; i--)
-    {
-        Room *roomToPrint = findRoomByID(g->rooms, i);
-        printRoomLegand(roomToPrint);
-    }
-}
-
-void printRoomLegendSingleLine(Room *Room)
-{
-    if (Room == NULL)
-    {
-        return;
-    }
-
-    char isthereMonster = ((Room->monster) != NULL) ? 'V' : 'X';
-    char isthereItem = ((Room->item) != NULL) ? 'V' : 'X';
-    printf("ID %d: [M:%c] [I:%c]\n", Room->id, isthereMonster, isthereItem);
-}
 
 GameState initGameState();
 
