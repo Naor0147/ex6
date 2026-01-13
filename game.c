@@ -371,3 +371,8 @@ void removeRoomFromMemory(Room *roomToRemove)
     free(roomToRemove);
     return;
 }
+
+
+void initPlayer(GameState *g){
+    
+}
