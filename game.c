@@ -5,7 +5,7 @@
 #include "utils.h"
 
 // Helper function to print legend in descending order (Recursive)
-static void printLegendRecursive(Room* room)
+static void printLegendRecursive(Room *room)
 {
     if (room == NULL)
         return;
@@ -16,10 +16,9 @@ static void printLegendRecursive(Room* room)
     // Print details on the way back (creating descending order)
     char monsterStatus = (room->monster != NULL) ? 'V' : 'X';
     char itemStatus = (room->item != NULL) ? 'V' : 'X';
-    
+
     printf("ID %d: [M:%c] [I:%c]\n", room->id, monsterStatus, itemStatus);
 }
-
 
 // Map display functions
 static void displayMap(GameState *g)
@@ -73,7 +72,7 @@ static void displayMap(GameState *g)
         free(grid[i]);
     free(grid);
 
-    //new
+    // new
     if (g->roomCount > 0)
     {
 
@@ -82,15 +81,11 @@ static void displayMap(GameState *g)
         printf("===================\n");
     }
 
-    if (g->player!=NULL)
+    if (g->player != NULL)
     {
-        /* code */
+        displayPlayerRoomDetails(g->player);
     }
-    
 }
-
-
-
 
 // Displays the current room details and player status
 /* like
@@ -99,7 +94,7 @@ Monster: Jhony (HP:13)
 Item: Midas
 HP: 100/100
 */
-void displayRoomDetails(Player *player)
+void displayPlayerRoomDetails(Player *player)
 {
     if (player == NULL || player->currentRoom == NULL)
     {
@@ -125,9 +120,6 @@ void displayRoomDetails(Player *player)
     // Print Player HP status
     printf("HP: %d/%d\n", player->hp, player->maxHp);
 }
-
-
-
 
 GameState initGameState();
 

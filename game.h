@@ -109,6 +109,7 @@ Item *addItemFunction(int userInputValue);
 // Memory & Utils
 void removeRoomFromMemory(Room *roomToRemove);
 
-
+// print
+void displayPlayerRoomDetails(Player *player);
 
 #endif
