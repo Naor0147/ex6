@@ -156,6 +156,7 @@ void addRoomHelperGameState(GameState *g, Room *roomToAdd)
     }
 
     g->roomCount++;
+    printf("Created room %d at (%d,%d)\n",roomToAdd->id,roomToAdd->x,roomToAdd->y);
 }
 
 Room *findRoomByID(Room *Room, int id)
