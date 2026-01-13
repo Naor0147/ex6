@@ -109,4 +109,10 @@ Item *addItemFunction(int userInputValue);
 // Memory & Utils
 void removeRoomFromMemory(Room *roomToRemove);
 
+
+//print
+void printRoomLegand(GameState *g);
+void printRoomLegendSingleLine(Room *Room);
+
+
 #endif

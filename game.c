@@ -55,37 +55,41 @@ static void displayMap(GameState *g)
     for (int i = 0; i < height; i++)
         free(grid[i]);
     free(grid);
+
+    //new
+    if (g->roomCount > 0)
+    {
+        printRoomLegand(g);
+    }
 }
 
 void printRoomLegand(GameState *g)
 {
-    if (g==NULL)
+    if (g == NULL)
     {
         return;
     }
-    
+
     printf("=== ROOM LEGEND ===\n");
 
-    for (int i =  g->roomCount-1; i >=0; i--)
+    for (int i = g->roomCount - 1; i >= 0; i--)
     {
-        Room* roomToPrint= findRoomByID(g->rooms,i);
+        Room *roomToPrint = findRoomByID(g->rooms, i);
         printRoomLegand(roomToPrint);
     }
-    
 }
 
-void printRoomLegendSingleLine(Room *Room){
-    if (Room==NULL)
+void printRoomLegendSingleLine(Room *Room)
+{
+    if (Room == NULL)
     {
         return;
     }
-    
-    char isthereMonster = ((Room->monster)!=NULL) ? 'V' : 'X';
-    char isthereItem = ((Room->item)!=NULL) ? 'V' : 'X';
-    printf("ID %d: [M:%c] [I:%c]\n",Room->id,isthereMonster,isthereItem);
+
+    char isthereMonster = ((Room->monster) != NULL) ? 'V' : 'X';
+    char isthereItem = ((Room->item) != NULL) ? 'V' : 'X';
+    printf("ID %d: [M:%c] [I:%c]\n", Room->id, isthereMonster, isthereItem);
 }
-
-
 
 GameState initGameState();
 
@@ -186,7 +190,7 @@ void addRoomHelperGameState(GameState *g, Room *roomToAdd)
     }
 
     g->roomCount++;
-    printf("Created room %d at (%d,%d)\n",roomToAdd->id,roomToAdd->x,roomToAdd->y);
+    printf("Created room %d at (%d,%d)\n", roomToAdd->id, roomToAdd->x, roomToAdd->y);
 }
 
 Room *findRoomByID(Room *Room, int id)
