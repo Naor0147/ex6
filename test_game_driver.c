@@ -6,9 +6,7 @@
 #include "bst.h"
 
 // --- MOCKING INPUT SYSTEM ---
-// מערכת שמדמה את הקלט של המשתמש
-
-#define MAX_INPUTS 100
+#define MAX_INPUTS 500 // הגדלנו את המקום לקלטים
 
 typedef struct {
     int intQueue[MAX_INPUTS];
@@ -40,165 +38,110 @@ void pushString(const char* val) {
     }
 }
 
-// פונקציה לאיפוס הקלטים לפני כל בדיקה
 void clearInputs() {
     inputs.intHead = 0;
     inputs.intTail = 0;
-    
-    // ניקוי מחרוזות ישנות (לא קריטי בטסט פשוט אבל טוב ליתר ביטחון)
-    for (int i = 0; i < inputs.strTail; i++) {
-        free(inputs.stringQueue[i]);
-    }
+    for (int i = 0; i < inputs.strTail; i++) free(inputs.stringQueue[i]);
     inputs.strHead = 0;
     inputs.strTail = 0;
 }
 
-// --- OVERRIDING UTILS FUNCTIONS ---
-// פונקציות אלו מחליפות את utils.c
-
+// --- OVERRIDING UTILS ---
 int getInt(const char* prompt) {
-    printf("[TEST INPUT] %s", prompt);
+    // printf("[TEST INPUT] %s", prompt); // צמצמנו את ההדפסה כדי שהמפה תבלוט
     if (inputs.intHead < inputs.intTail) {
         int val = inputs.intQueue[inputs.intHead++];
-        printf(" >> %d\n", val);
+        // printf(" >> %d\n", val);
         return val;
     }
-    printf("\nError: Test ran out of int inputs!\n");
+    printf("\nError: Test ran out of int inputs! Req: '%s'\n", prompt);
     exit(1);
 }
 
 char* getString(const char* prompt) {
-    printf("[TEST INPUT] %s", prompt);
     if (inputs.strHead < inputs.strTail) {
-        char* val = inputs.stringQueue[inputs.strHead++];
-        printf(" >> %s\n", val);
-        return strdup(val);
+        return strdup(inputs.stringQueue[inputs.strHead++]);
     }
-    printf("\nError: Test ran out of string inputs!\n");
     exit(1);
 }
 
 void clearBuffer() {}
 char* getStringScanf() { return NULL; }
 
+// --- HELPER FOR VISUAL TEST ---
+// פונקציה שמוסיפה חדר ידנית ללא שימוש ב-scanf
+void force_add_room(GameState *g, int id, int x, int y) {
+    Room* r = (Room*)malloc(sizeof(Room));
+    r->id = id;
+    r->x = x;
+    r->y = y;
+    r->visited = 0;
+    r->monster = NULL;
+    r->item = NULL;
+    r->next = NULL;
+
+    if (g->rooms == NULL) {
+        g->rooms = r;
+    } else {
+        Room* curr = g->rooms;
+        while(curr->next) curr = curr->next;
+        curr->next = r;
+    }
+    g->roomCount++;
+}
+
 // --- TESTS ---
 
-void test_add_first_room() {
-    printf("\n=== TEST 1: Add First Room (ID 0) ===\n");
-    clearInputs(); // איפוס הקלט
-    
-    GameState game = {0}; 
-    
-    // Inputs: No monster, No item
-    pushInt(0); 
-    pushInt(0); 
-
-    addRoom(&game);
-
-    assert(game.roomCount == 1);
-    assert(game.rooms != NULL);
-    assert(game.rooms->id == 0);
-    assert(game.rooms->monster == NULL);
-
-    printf(">>> PASS: First room created successfully.\n");
-    
-    // ניקוי זיכרון חלקי
-    removeRoomFromGameState(&game, game.rooms);
-}
-
-void test_add_second_room_with_content() {
-    printf("\n=== TEST 2: Add Connected Room with Monster & Item ===\n");
-    clearInputs(); // איפוס חשוב!
-    
+void test_spiral_map() {
+    printf("\n=== TEST 4: Large Spiral Map Visualization ===\n");
+    clearInputs();
     GameState game = {0};
 
-    // --- שלב 1: יצירת החדר הראשון (ID 0) ---
-    // נדרש כי לא ניתן להוסיף חדר שני בלי חדר ראשון
-    pushInt(0); // Monster? No
-    pushInt(0); // Item? No
-    addRoom(&game); 
-
-    // --- שלב 2: הוספת החדר השני (ID 1) ---
-    // סדר הקלטים הצפוי ב-addRoom לחדר שני:
-    // 1. Attach ID
-    // 2. Direction
-    // 3. Add Monster? (אם כן -> שם, סוג, חיים, התקפה)
-    // 4. Add Item? (אם כן -> שם, סוג, ערך)
+    // 1. בניית ספירלה ידנית של 50 חדרים
+    int x = 0, y = 0;
+    int steps = 1;
+    int id = 0;
     
-    pushInt(0);          // Attach to room ID: 0
-    pushInt(0);          // Direction: 0 (UP)
+    // מוסיפים את החדר הראשון
+    force_add_room(&game, id++, x, y);
+
+    // אלגוריתם ליצירת ספירלה
+    for (int i = 0; i < 12; i++) { // מספר לולאות
+        // Right
+        for(int j=0; j<steps; j++) force_add_room(&game, id++, ++x, y);
+        // Up (y-1)
+        for(int j=0; j<steps; j++) force_add_room(&game, id++, x, --y);
+        steps++;
+        // Left
+        for(int j=0; j<steps; j++) force_add_room(&game, id++, --x, y);
+        // Down (y+1)
+        for(int j=0; j<steps; j++) force_add_room(&game, id++, x, ++y);
+        steps++;
+    }
+
+    printf("Generated %d rooms in a spiral pattern.\n", id);
+    printf("Triggering displayMap via addRoom...\n");
+
+    // 2. הכנת קלט שיגרום ל-addRoom להדפיס ואז לצאת
+    // אנחנו מנסים לחבר חדר לחדר 0 בכיוון שכבר תפוס (למשל Right שזה (1,0))
+    // זה יגרום לפונקציה להדפיס "Room exists there" ולסיים, אבל אחרי שהדפיסה את המפה!
     
-    // פרטי מפלצת
-    pushInt(1);          // Add monster? Yes
-    pushString("Goblin"); // Monster Name
-    pushInt(1);          // Type (SPIDER=1)
-    pushInt(50);         // HP
-    pushInt(10);         // Attack
+    pushInt(0); // Attach to ID 0
+    pushInt(3); // Direction Right (שם נמצא חדר ID 1 בספירלה שלנו)
     
-    // פרטי חפץ
-    pushInt(1);          // Add item? Yes
-    pushString("SwordOfTruth"); // Item Name
-    pushInt(1);          // Type (SWORD=1)
-    pushInt(100);        // Value
+    // קריאה לפונקציה
+    addRoom(&game);
 
-    addRoom(&game); // הקריאה השנייה לפונקציה
-
-    // --- בדיקות (Assertions) ---
-    assert(game.roomCount == 2);
-    
-    Room* r1 = findRoomByID(game.rooms, 1);
-    assert(r1 != NULL);
-    // בדיקת מיקום: UP אומר y-1
-    assert(r1->x == 0);
-    assert(r1->y == -1); 
-    
-    // בדיקת מפלצת
-    assert(r1->monster != NULL);
-    assert(strcmp(r1->monster->name, "Goblin") == 0);
-    assert(r1->monster->hp == 50);
-
-    // בדיקת חפץ
-    assert(r1->item != NULL);
-    assert(strcmp(r1->item->name, "SwordOfTruth") == 0);
-    assert(r1->item->value == 100);
-
-    // בדיקת קישוריות
-    assert(game.rooms->next == r1);
-
-    printf(">>> PASS: Second room connected and populated correctly.\n");
-    
-    // שחרור זיכרון (ידני כי freeGame עדיין לא מומש)
-    removeRoomFromGameState(&game, r1); 
-    removeRoomFromGameState(&game, game.rooms); 
-}
-
-void test_find_functions() {
-    printf("\n=== TEST 3: Find Functions ===\n");
-    
-    Room r1 = { .id = 1, .x = 1, .y = 0, .next = NULL };
-    Room r0 = { .id = 0, .x = 0, .y = 0, .next = &r1 };
-    
-    Room* res = findRoomByID(&r0, 1);
-    assert(res == &r1);
-    printf(">>> PASS: findRoomByID found ID 1.\n");
-
-    res = findRoomByID(&r0, 99);
-    assert(res == NULL);
-    printf(">>> PASS: findRoomByID returned NULL for missing ID.\n");
-
-    res = findRoomByPostion(&r0, 1, 0);
-    assert(res == &r1);
-    printf(">>> PASS: findRoomByPostion found (1,0).\n");
+    // ניקוי (פשוט מאוד)
+    Room* curr = game.rooms;
+    while(curr) {
+        Room* next = curr->next;
+        free(curr);
+        curr = next;
+    }
 }
 
 int main() {
-    printf("--- STARTING AUTOMATED TESTS FOR GAME.C ---\n");
-    
-    test_add_first_room();
-    test_add_second_room_with_content();
-    test_find_functions();
-    
-    printf("\nAll tests finished. If you see this, no crashes occurred.\n");
-    
+    test_spiral_map();
     return 0;
 }

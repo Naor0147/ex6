@@ -92,13 +92,38 @@ static void displayMap(GameState *g)
 
 
 
-void printRoomDeatlis(Room * room){
-    if (room==NULL)
+// Displays the current room details and player status
+/* like
+--- Room 0 ---
+Monster: Jhony (HP:13)
+Item: Midas
+HP: 100/100
+*/
+void displayRoomDetails(Player *player)
+{
+    if (player == NULL || player->currentRoom == NULL)
     {
         return;
     }
 
-    
+    Room *currentRoom = player->currentRoom;
+
+    printf("--- Room %d ---\n", currentRoom->id);
+
+    // Print Monster details if one exists in the room
+    if (currentRoom->monster != NULL)
+    {
+        printf("Monster: %s (HP:%d)\n", currentRoom->monster->name, currentRoom->monster->hp);
+    }
+
+    // Print Item details if one exists in the room
+    if (currentRoom->item != NULL)
+    {
+        printf("Item: %s\n", currentRoom->item->name);
+    }
+
+    // Print Player HP status
+    printf("HP: %d/%d\n", player->hp, player->maxHp);
 }
 
 
