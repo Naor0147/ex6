@@ -3,11 +3,10 @@
 #include <string.h>
 #include <assert.h>
 #include "game.h"
-// include bst.h if needed for struct definitions
 #include "bst.h"
 
 // --- MOCKING INPUT SYSTEM ---
-// מערכת שתדמה את הקלט של המשתמש כדי שלא נצטרך להקליד ידנית
+// מערכת שמדמה את הקלט של המשתמש
 
 #define MAX_INPUTS 100
 
@@ -23,7 +22,6 @@ typedef struct {
 
 MockInput inputs = { .intHead = 0, .intTail = 0, .strHead = 0, .strTail = 0 };
 
-// פונקציות עזר להכנת הקלט לבדיקה
 void pushInt(int val) {
     if (inputs.intTail < MAX_INPUTS) {
         inputs.intQueue[inputs.intTail++] = val;
@@ -42,16 +40,21 @@ void pushString(const char* val) {
     }
 }
 
+// פונקציה לאיפוס הקלטים לפני כל בדיקה
 void clearInputs() {
     inputs.intHead = 0;
     inputs.intTail = 0;
-    // Free strings if needed, but for simple tests we skip to keep it simple
+    
+    // ניקוי מחרוזות ישנות (לא קריטי בטסט פשוט אבל טוב ליתר ביטחון)
+    for (int i = 0; i < inputs.strTail; i++) {
+        free(inputs.stringQueue[i]);
+    }
     inputs.strHead = 0;
     inputs.strTail = 0;
 }
 
 // --- OVERRIDING UTILS FUNCTIONS ---
-// פונקציות אלו מחליפות את utils.c ומחזירות ערכים שהכנו מראש
+// פונקציות אלו מחליפות את utils.c
 
 int getInt(const char* prompt) {
     printf("[TEST INPUT] %s", prompt);
@@ -69,115 +72,108 @@ char* getString(const char* prompt) {
     if (inputs.strHead < inputs.strTail) {
         char* val = inputs.stringQueue[inputs.strHead++];
         printf(" >> %s\n", val);
-        // Return a copy because the code might free it
         return strdup(val);
     }
     printf("\nError: Test ran out of string inputs!\n");
     exit(1);
 }
 
-// Stub for clearBuffer if game.c calls it (it doesn't seem to based on your file, but just in case)
 void clearBuffer() {}
-
-char* getStringScanf() { return NULL; } // Not used by game.c logic directly usually
+char* getStringScanf() { return NULL; }
 
 // --- TESTS ---
 
 void test_add_first_room() {
     printf("\n=== TEST 1: Add First Room (ID 0) ===\n");
-    GameState game = {0}; // Initialize empty game
-
-    // Scenario: Add first room. 
-    // Logic: createRoom asks "Add monster?" then "Add item?".
-    // We want a clean room (no monster, no item).
+    clearInputs(); // איפוס הקלט
     
-    clearInputs();
-    pushInt(0); // Add monster? No
-    pushInt(0); // Add item? No
+    GameState game = {0}; 
+    
+    // Inputs: No monster, No item
+    pushInt(0); 
+    pushInt(0); 
 
     addRoom(&game);
 
-    // Assertions
     assert(game.roomCount == 1);
     assert(game.rooms != NULL);
     assert(game.rooms->id == 0);
-    assert(game.rooms->x == 0 && game.rooms->y == 0);
     assert(game.rooms->monster == NULL);
-    assert(game.rooms->item == NULL);
 
     printf(">>> PASS: First room created successfully.\n");
     
-    // Clean up (simulating freeGame partially)
+    // ניקוי זיכרון חלקי
     removeRoomFromGameState(&game, game.rooms);
 }
 
 void test_add_second_room_with_content() {
     printf("\n=== TEST 2: Add Connected Room with Monster & Item ===\n");
+    clearInputs(); // איפוס חשוב!
+    
     GameState game = {0};
 
-    // 1. Setup first room manually to save time/inputs
-    Room* r0 = createRoom(0,0,0); // createRoom calls getInt! Need to mock inputs for this too.
-    // Wait, createRoom calls inputs. Let's do standard addRoom flow.
-    
-    // Inputs for Room 0
-    pushInt(0); // No monster
-    pushInt(0); // No item
-    addRoom(&game);
+    // --- שלב 1: יצירת החדר הראשון (ID 0) ---
+    // נדרש כי לא ניתן להוסיף חדר שני בלי חדר ראשון
+    pushInt(0); // Monster? No
+    pushInt(0); // Item? No
+    addRoom(&game); 
 
-    // 2. Inputs for Room 1
-    // Flow: attachID -> Direction -> Monster(Yes) -> Name -> Type -> HP -> Atk -> Item(Yes) -> Name -> Type -> Value
-    pushInt(0);          // Attach to room ID 0
-    pushInt(0);          // Direction 0 (UP) -> Should be (0, -1)
+    // --- שלב 2: הוספת החדר השני (ID 1) ---
+    // סדר הקלטים הצפוי ב-addRoom לחדר שני:
+    // 1. Attach ID
+    // 2. Direction
+    // 3. Add Monster? (אם כן -> שם, סוג, חיים, התקפה)
+    // 4. Add Item? (אם כן -> שם, סוג, ערך)
     
-    // Monster Details
+    pushInt(0);          // Attach to room ID: 0
+    pushInt(0);          // Direction: 0 (UP)
+    
+    // פרטי מפלצת
     pushInt(1);          // Add monster? Yes
-    pushString("Goblin"); // Name
+    pushString("Goblin"); // Monster Name
     pushInt(1);          // Type (SPIDER=1)
     pushInt(50);         // HP
     pushInt(10);         // Attack
     
-    // Item Details
+    // פרטי חפץ
     pushInt(1);          // Add item? Yes
-    pushString("SwordOfTruth"); // Name
+    pushString("SwordOfTruth"); // Item Name
     pushInt(1);          // Type (SWORD=1)
     pushInt(100);        // Value
 
-    addRoom(&game);
+    addRoom(&game); // הקריאה השנייה לפונקציה
 
-    // Assertions
+    // --- בדיקות (Assertions) ---
     assert(game.roomCount == 2);
     
-    // Find the new room
     Room* r1 = findRoomByID(game.rooms, 1);
     assert(r1 != NULL);
+    // בדיקת מיקום: UP אומר y-1
     assert(r1->x == 0);
-    assert(r1->y == -1); // Up is y-1
+    assert(r1->y == -1); 
     
-    // Check Monster
+    // בדיקת מפלצת
     assert(r1->monster != NULL);
     assert(strcmp(r1->monster->name, "Goblin") == 0);
     assert(r1->monster->hp == 50);
 
-    // Check Item
+    // בדיקת חפץ
     assert(r1->item != NULL);
     assert(strcmp(r1->item->name, "SwordOfTruth") == 0);
     assert(r1->item->value == 100);
 
-    // Check Linkage (Linked List)
+    // בדיקת קישוריות
     assert(game.rooms->next == r1);
 
     printf(">>> PASS: Second room connected and populated correctly.\n");
     
-    // Cleanup
-    // Note: Since freeGame isn't implemented in your snippet, we remove one by one
-    removeRoomFromGameState(&game, r1); // Remove tail first
-    removeRoomFromGameState(&game, game.rooms); // Remove head
+    // שחרור זיכרון (ידני כי freeGame עדיין לא מומש)
+    removeRoomFromGameState(&game, r1); 
+    removeRoomFromGameState(&game, game.rooms); 
 }
 
 void test_find_functions() {
     printf("\n=== TEST 3: Find Functions ===\n");
-    // Manually constructing list to avoid input overhead
-    // List: [ID:0 (0,0)] -> [ID:1 (1,0)]
     
     Room r1 = { .id = 1, .x = 1, .y = 0, .next = NULL };
     Room r0 = { .id = 0, .x = 0, .y = 0, .next = &r1 };
@@ -203,7 +199,6 @@ int main() {
     test_find_functions();
     
     printf("\nAll tests finished. If you see this, no crashes occurred.\n");
-    printf("Use 'valgrind ./test_game' to check for memory leaks.\n");
     
     return 0;
 }

@@ -57,6 +57,36 @@ static void displayMap(GameState *g)
     free(grid);
 }
 
+void printRoomLegand(GameState *g)
+{
+    if (g==NULL)
+    {
+        return;
+    }
+    
+    printf("=== ROOM LEGEND ===\n");
+
+    for (int i =  g->roomCount-1; i >=0; i--)
+    {
+        Room* roomToPrint= findRoomByID(g->rooms,i);
+        printRoomLegand(roomToPrint);
+    }
+    
+}
+
+void printRoomLegendSingleLine(Room *Room){
+    if (Room==NULL)
+    {
+        return;
+    }
+    
+    char isthereMonster = ((Room->monster)!=NULL) ? 'V' : 'X';
+    char isthereItem = ((Room->item)!=NULL) ? 'V' : 'X';
+    printf("ID %d: [M:%c] [I:%c]\n",Room->id,isthereMonster,isthereItem);
+}
+
+
+
 GameState initGameState();
 
 void addRoom(GameState *g)
