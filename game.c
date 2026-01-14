@@ -37,7 +37,7 @@ static void printLegendRecursive(Room *room)
     // Recurse first to reach the end of the list
     printLegendRecursive(room->next);
 
-    // Print details on the way back (creating descending order)
+    // Print details on the way back 
     char monsterStatus = (room->monster != NULL) ? 'V' : 'X';
     char itemStatus = (room->item != NULL) ? 'V' : 'X';
 
