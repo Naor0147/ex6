@@ -104,9 +104,9 @@ void playGame(GameState *g)
         printf("Init player first\n");
         return;
     }
-    int play=1;
+    int playing=1;
 
-    while (play)
+    while (playing)
     {
         g->player->currentRoom->visited = 1;//mark the room as visitied
         displayMap(g);
@@ -116,6 +116,15 @@ void playGame(GameState *g)
 
         int choice = getInt("1.Move 2.Fight 3.Pickup 4.Bag 5.Defeated 6.Quit\n");
 
+        switch (choice) {
+            case 1: movePlayer(g); break;
+            case 2: fightMonster(g); break;
+            case 3: pickupItem(g); break;
+            case 4: openBag(g); break;
+            case 5: showDefeated(g); break;
+            case 6: playing = 0; break; // Go back to Main Menu
+            default: break;
+        }
 
     }
     
@@ -571,6 +580,7 @@ void freeGame(GameState *g)
 }
 
 
-void movePlayer(){
-
+void movePlayer(GameState *g){
+    int direction = getInt("Direction (0=Up,1=Down,2=Left,3=Right): ");
+    
 }
