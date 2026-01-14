@@ -536,26 +536,28 @@ void printMonster(void *data)
     const char *typeStr = "Unknown";
     switch (monster->type)
     {
-    case PHANTOM:
-        typeStr = "Phantom";
-        break;
-    case SPIDER:
-        typeStr = "Spider";
-        break;
-    case DEMON:
-        typeStr = "Demon";
-        break;
-    case GOLEM:
-        typeStr = "Golem";
-        break;
-    case COBRA:
-        typeStr = "Cobra";
-        break;
+        case PHANTOM:
+            typeStr = "Phantom";
+            break;
+        case SPIDER:
+            typeStr = "Spider";
+            break;
+        case DEMON:
+            typeStr = "Demon";
+            break;
+        case GOLEM:
+            typeStr = "Golem";
+            break;
+        case COBRA:
+            typeStr = "Cobra";
+            break;
+        default:
+            break;
     }
     printf("\t[%s] Type: %s, Attack: %d, HP: %d\n", monster->name, typeStr, monster->attack, monster->maxHp);
 }
-//works
-// free memory
+// works
+//  free memory
 void freeGame(GameState *g)
 {
     if (g == NULL)
