@@ -112,8 +112,8 @@ void playGame(GameState *g)
         // 1. DisplayMap
         g->player->currentRoom->visited = 1; // mark the room as visitied
         displayMap(g);
-        printRoomLegend(g);
         printf("\n");
+        printRoomLegend(g);
         // 2. Sub-menu
 
         int choice = getInt("1.Move 2.Fight 3.Pickup 4.Bag 5.Defeated 6.Quit\n");
