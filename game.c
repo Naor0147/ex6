@@ -697,7 +697,7 @@ void pickupItem(GameState *g)
         printf("No item here\n");
         return;
     }
-    g->rooms->item=bstInsert(g->player->bag,g->rooms->item,g->player->bag->compare);
+    g->rooms->item=bstInsert(g->player->bag->root,g->rooms->item,g->player->bag->compare);
     
     
 }
