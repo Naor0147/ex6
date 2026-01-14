@@ -140,9 +140,10 @@ void playGame(GameState *g)
         default:
             break;
         }
+        checkWin(g);
+
     }
     // win condtion
-    checkWin(g);
 }
 
 // Displays the current room details and player status
