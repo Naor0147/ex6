@@ -402,7 +402,7 @@ void initPlayer(GameState *g)
     newPlayer->defeatedMonsters->print = printMonster;
     newPlayer->defeatedMonsters->freeData=freeMonster;
 
-    g->player = newPlayer; //
+    g->player = newPlayer; 
 }
 
 /*==========
