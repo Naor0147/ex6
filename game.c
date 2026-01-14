@@ -141,7 +141,7 @@ void playGame(GameState *g)
             break;
         }
     }
-    //win condtion
+    // win condtion
     checkWin(g);
 }
 
@@ -667,10 +667,13 @@ void fightMonster(GameState *g)
 
 void checkWin(GameState *g)
 {
-    Room *checkRoom=g->rooms;
-    while (checkRoom!=NULL)
+    Room *checkRoom = g->rooms;
+    while (checkRoom != NULL)
     {
         /* code */
     }
-    printf("***************************************");
+    printf("***************************************\n");
+    printf("             VICTORY!\n");//probaly 4 tabs
+    printf("All rooms explored. All monsters defeated.\n");
+    printf("***************************************\n");
 }
