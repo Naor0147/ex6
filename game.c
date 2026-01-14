@@ -372,50 +372,48 @@ void removeRoomFromMemory(Room *roomToRemove)
     return;
 }
 
-
-void initPlayer(GameState *g){
-    if (g==NULL)
+void initPlayer(GameState *g)
+{
+    if (g == NULL)
     {
         return;
     }
-    Player* newPlayer=(Player * )malloc(sizeof(Player));
-    newPlayer->maxHp=g->configMaxHp;
-    newPlayer->hp=g->configMaxHp;
-    newPlayer->baseAttack=g->configBaseAttack;
-    newPlayer->currentRoom=g->rooms;
-    
-    //need to create BST tree of bag
-    //newPlayer->bag =
-    
+    Player *newPlayer = (Player *)malloc(sizeof(Player));
+    newPlayer->maxHp = g->configMaxHp;
+    newPlayer->hp = g->configMaxHp;
+    newPlayer->baseAttack = g->configBaseAttack;
+    newPlayer->currentRoom = g->rooms;
+
+    // need to create BST tree of bag
+    // newPlayer->bag =
 }
 
-
-
-
 /*==========
-Bag Functions 
+Bag Functions
 =============*/
 
-
-int compareItems(void* left, void* right) {
+int compareItems(void *left, void *right)
+{
     // Cast the generic void pointers back to Item pointers
-    Item* itemLeft = (Item*)left;
-    Item* itemRight = (Item*)right;
+    Item *itemLeft = (Item *)left;
+    Item *itemRight = (Item *)right;
 
-    //Sort: Name 
+    // Sort: Name
     int nameCmp = strcmp(itemLeft->name, itemRight->name);
-    if (nameCmp != 0) {
+    if (nameCmp != 0)
+    {
         return nameCmp;
     }
 
     // Sort: Value
-    if (itemLeft->value != itemRight->value) {
+    if (itemLeft->value != itemRight->value)
+    {
         return itemLeft->value - itemRight->value;
     }
 
-    // 3. Tertiary Sort: Type
-    // ARMOR (0) comes before SWORD (1) 
-    // Since ARMOR is 0 and SWORD is 1, standard subtraction works:
+    // Sort: Type
+    // ARMOR (0) comes before SWORD (1)
+    // Since ARMOR is 0 and SWORD is 1
     // (0 - 1) is negative (Left), (1 - 0) is positive (Right)
     return itemLeft->type - itemRight->type;
 }
