@@ -554,7 +554,7 @@ void printMonster(void *data)
     }
     printf("\t[%s] Type: %s, Attack: %d, HP: %d\n", monster->name, typeStr, monster->attack, monster->maxHp);
 }
-
+//works
 // free memory
 void freeGame(GameState *g)
 {
