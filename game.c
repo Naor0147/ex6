@@ -418,4 +418,6 @@ int compareItems(void *left, void *right)
     // Return 0 if equal 
     return itemLeft->type - itemRight->type;
 }
-
+void printItems(void *){
+    
+}
