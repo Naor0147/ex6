@@ -384,4 +384,6 @@ void initPlayer(GameState *g){
     newPlayer->baseAttack=g->configBaseAttack;
     newPlayer->currentRoom=g->rooms;
     
+    //need to create BST tree of bag
+    //newPlayer->bag =
 }
