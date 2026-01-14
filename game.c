@@ -689,7 +689,15 @@ void pickupItem(GameState *g)
 {
     if (g->rooms->monster!=NULL)
     {
-        /* code */
+        printf("Kill monster first\n");
+        return;
     }
+    if (g->rooms->item==NULL)
+    {
+        printf("No item here\n");
+        return;
+    }
+    g->rooms->item=bstInsert(g->player->bag,g->rooms->item,g->player->bag->compare);
+    
     
 }
