@@ -176,7 +176,6 @@ void displayPlayerRoomDetails(Player *player)
     printf("HP: %d/%d\n", player->hp, player->maxHp);
 }
 
-GameState initGameState();
 
 void addRoom(GameState *g)
 {
