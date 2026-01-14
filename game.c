@@ -672,5 +672,5 @@ void checkWin(GameState *g)
     {
         /* code */
     }
-    
+    printf("***************************************");
 }
