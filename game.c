@@ -399,6 +399,23 @@ Bag Functions
 
 int compareItems(void* left, void* right) {
     // Cast the generic void pointers back to Item pointers
-    Item* itemA = (Item*)left;
-    Item* itemB = (Item*)right;
+    Item* itemLeft = (Item*)left;
+    Item* itemRight = (Item*)right;
+
+    //Sort: Name 
+    int nameCmp = strcmp(itemLeft->name, itemRight->name);
+    if (nameCmp != 0) {
+        return nameCmp;
+    }
+
+    // Sort: Value
+    if (itemLeft->value != itemRight->value) {
+        return itemLeft->value - itemRight->value;
+    }
+
+    // 3. Tertiary Sort: Type
+    // ARMOR (0) comes before SWORD (1) 
+    // Since ARMOR is 0 and SWORD is 1, standard subtraction works:
+    // (0 - 1) is negative (Left), (1 - 0) is positive (Right)
+    return itemLeft->type - itemRight->type;
 }
