@@ -75,6 +75,11 @@ void freeAllNodes(BSTNode *treeNode, void (*freeData)(void *))
 // Deletes The Tree and frees all the memory
 void deleteTree(BST *tree)
 {
+    if (tree==NULL)
+    {
+        return;
+    }
+    
     freeAllNodes(tree->root, tree->freeData);
     free(tree);
 }
