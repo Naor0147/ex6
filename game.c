@@ -15,7 +15,7 @@ static void printRoomLegend(GameState *g)
 
         printf("=== ROOM LEGEND ===\n");
         printLegendRecursive(g->rooms);
-        printf("===================\n\n");
+        printf("===================\n");
     }
 
     if (g->player != NULL)
@@ -113,7 +113,7 @@ void playGame(GameState *g)
         g->player->currentRoom->visited = 1; // mark the room as visitied
         displayMap(g);
         printRoomLegend(g);
-
+        printf("\n");
         // 2. Sub-menu
 
         int choice = getInt("1.Move 2.Fight 3.Pickup 4.Bag 5.Defeated 6.Quit\n");
