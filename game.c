@@ -516,7 +516,7 @@ void freeMonster(void *data)
     }
     Monster *monster = (Monster *)data;
 
-    if (monster->name = NULL)
+    if (monster->name != NULL)
     {
         free(monster->name);
     }
