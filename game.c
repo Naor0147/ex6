@@ -378,8 +378,9 @@ void initPlayer(GameState *g)
     {
         return;
     }
-    if (g->rooms == NULL) {
-        printf("Create rooms first\n"); 
+    if (g->rooms == NULL)
+    {
+        printf("Create rooms first\n");
         return;
     }
 
@@ -389,17 +390,30 @@ void initPlayer(GameState *g)
     newPlayer->baseAttack = g->configBaseAttack;
     newPlayer->currentRoom = g->rooms;
 
-    newPlayer->bag =(BST *)malloc(sizeof(BST));
-    newPlayer->bag->compare=compareItems;
-    newPlayer->bag->print=printItem;
-    newPlayer->bag->freeData=freeItem;
-    newPlayer->bag->root=NULL;
+    newPlayer->bag = (BST *)malloc(sizeof(BST));
+    newPlayer->bag->compare = compareItems;
+    newPlayer->bag->print = printItem;
+    newPlayer->bag->freeData = freeItem;
+    newPlayer->bag->root = NULL;
+
+    newPlayer->defeatedMonsters = (BST *)malloc(sizeof(BST));
+    newPlayer->defeatedMonsters->root = NULL;
+    newPlayer->defeatedMonsters->compare = compareMonsters;
+    newPlayer->defeatedMonsters->print = printMonster;
+
+    g->player = newPlayer; //
 }
 
 /*==========
 Bag Functions
 =============*/
 
+/*
+ * Compares
+ * 1. Name
+ * 2. Value
+ * 3. Type
+ */
 int compareItems(void *left, void *right)
 {
     // Cast the generic void pointers back to Item pointers
@@ -438,73 +452,57 @@ void printItems(void *a)
     printf("[%s] %s - Value: %d\n", itemType, item->name, item->value);
 }
 
-int compareMonsters(void *left, void *right){
-    Monster* monsterLeft = (Monster*)left;
-    Monster* monsterRight = (Monster*)right;
+/*
+ * Compares
+ * 1. Name
+ * 2. Attack
+ * 3. HP
+ * 4. Type
+ */
+int compareMonsters(void *left, void *right)
+{
+    Monster *monsterLeft = (Monster *)left;
+    Monster *monsterRight = (Monster *)right;
     int nameCmp = strcmp(monsterLeft->name, monsterRight->name);
     if (nameCmp != 0)
     {
         return nameCmp;
     }
-    int attackDif=monsterLeft->attack-monsterRight->attack;
-    if (attackDif!=0)
+    int attackDif = monsterLeft->attack - monsterRight->attack;
+    if (attackDif != 0)
     {
         return attackDif;
     }
-    
-    
+    if (monsterLeft->hp != monsterRight->hp)
+    {
+        return monsterLeft->hp - monsterRight->hp;
+    }
+    return monsterLeft->type - monsterRight->type;
 }
 
+void printMonster(void *data)
+{
+    Monster *monster = (Monster *)data;
 
-/*
- * Compares
- * 1. Name (strcmp)
- * 2. Attack
- * 3. HP
- * 4. Type
- */
-int compareMonsters(void* a, void* b) {
-    Monster* monA = (Monster*)a;
-    Monster* monB = (Monster*)b;
-
-    // 1. Sort by Name (strcmp) [cite: 296]
-    int nameCmp = strcmp(monA->name, monB->name);
-    if (nameCmp != 0) {
-        return nameCmp;
-    }
-
-    // 2. Sort by Attack [cite: 297]
-    if (monA->attack != monB->attack) {
-        return monA->attack - monB->attack;
-    }
-
-    // 3. Sort by HP [cite: 298]
-    if (monA->hp != monB->hp) {
-        return monA->hp - monB->hp;
-    }
-
-    // 4. Sort by Type [cite: 299]
-    // (PHANTOM=0 < SPIDER=1 < DEMON=2 < GOLEM=3 < COBRA=4)
-    return monA->type - monB->type;
-}
-
-/*
- * Prints a monster in the format:
- * [Name] Type: TypeStr, Attack: X, HP: Y
- */
-void printMonster(void* data) {
-    Monster* m = (Monster*)data;
-    
     // Convert enum to string for printing
-    const char* typeStr = "Unknown";
-    switch(m->type) {
-        case PHANTOM: typeStr = "Phantom"; break;
-        case SPIDER:  typeStr = "Spider";  break;
-        case DEMON:   typeStr = "Demon";   break;
-        case GOLEM:   typeStr = "Golem";   break;
-        case COBRA:   typeStr = "Cobra";   break;
+    const char *typeStr = "Unknown";
+    switch (monster->type)
+    {
+    case PHANTOM:
+        typeStr = "Phantom";
+        break;
+    case SPIDER:
+        typeStr = "Spider";
+        break;
+    case DEMON:
+        typeStr = "Demon";
+        break;
+    case GOLEM:
+        typeStr = "Golem";
+        break;
+    case COBRA:
+        typeStr = "Cobra";
+        break;
     }
-
-    // Print exactly as in the example: [Goblin] Type: Phantom, Attack: 3, HP: 20 
-    printf("[%s] Type: %s, Attack: %d, HP: %d\n", m->name, typeStr, m->attack, m->hp);
+    printf("[%s] Type: %s, Attack: %d, HP: %d\n", monster->name, typeStr, monster->attack, monster->hp);
 }
