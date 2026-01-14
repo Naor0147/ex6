@@ -585,7 +585,7 @@ void movePlayer(GameState *g){
 
 }
 
-void upadetPosBaseOnDirection(int *x,int *y,int direction){
+void updatePosBaseOnDirection(int *x,int *y,int direction){
     if (direction == UP)
     {
         --(*y);
