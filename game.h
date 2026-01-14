@@ -118,6 +118,8 @@ void printItem(void *a);
 
 
 
+int updatePosBaseOnDirection(int *x,int *y,int direction);
+
 
 
 

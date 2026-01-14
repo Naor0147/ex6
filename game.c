@@ -188,27 +188,13 @@ void addRoom(GameState *g)
     int direction = getInt("Direction (0=Up,1=Down,2=Left,3=Right): ");
     int x = theRoom->x;
     int y = theRoom->y;
-    if (direction == UP)
-    {
-        --y;
-    }
-    else if (direction == DOWN)
-    {
-        ++y;
-    }
-    else if (direction == RIGHT)
-    {
-        ++x;
-    }
-    else if (direction == LEFT)
-    {
-        --x;
-    }
-    else
+    int isValidUpdate =updatePosBaseOnDirection(&x,&y,direction);
+    if(isValidUpdate==FALSE)
     {
         printf("Room exists there\n");
         return;
     }
+
     if (findRoomByPostion(g->rooms, x, y) != NULL)
     {
         printf("Room exists there\n");
@@ -585,21 +571,29 @@ void movePlayer(GameState *g){
 
 }
 
-void updatePosBaseOnDirection(int *x,int *y,int direction){
+int updatePosBaseOnDirection(int *x,int *y,int direction){
     if (direction == UP)
     {
         --(*y);
+        return TRUE;
     }
     else if (direction == DOWN)
     {
         ++(*y);
+        return TRUE;
+
     }
     else if (direction == RIGHT)
     {
         ++(*x);
+        return TRUE;
+
     }
     else if (direction == LEFT)
     {
         --(*x);
+        return TRUE;
+
     }
+    return FALSE;
 }
