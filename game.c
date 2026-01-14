@@ -140,10 +140,9 @@ void playGame(GameState *g)
         default:
             break;
         }
-        
     }
-    //check lose or win condtion
-
+    //win condtion
+    checkWin(g);
 }
 
 // Displays the current room details and player status
@@ -646,7 +645,8 @@ void fightMonster(GameState *g)
         {
             // monster died
             printf("Monster defeated!\n");
-            myPlayer->defeatedMonsters->root=bstInsert(myPlayer->defeatedMonsters->root,monster,myPlayer->defeatedMonsters->compare);
+            BST *defatedMonster = myPlayer->defeatedMonsters;
+            myPlayer->defeatedMonsters->root = bstInsert(defatedMonster->root, monster, defatedMonster->compare);
             freeMonster(monster);
             monster = NULL;
             myPlayer->currentRoom->monster = NULL;
@@ -654,13 +654,23 @@ void fightMonster(GameState *g)
         }
         myPlayer->hp -= monster->attack;
         myPlayer->hp = (myPlayer->hp <= 0) ? 0 : myPlayer->hp;
-        printf("Monster deals %d damage. Your HP: %d\n", monster->attack,myPlayer->hp);
+        printf("Monster deals %d damage. Your HP: %d\n", monster->attack, myPlayer->hp);
         if (myPlayer->hp <= 0)
         {
             printf("--- YOU DIED ---\n");
-            freeGame(g); //free everything before exiting
+            freeGame(g); // free everything before exiting
             exit(0);
             return;
         }
     }
+}
+
+void checkWin(GameState *g)
+{
+    Room *checkRoom=g->rooms;
+    while (checkRoom!=NULL)
+    {
+        /* code */
+    }
+    
 }
