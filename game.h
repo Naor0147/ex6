@@ -115,6 +115,10 @@ void freeMonster(void *data);
 void displayPlayerRoomDetails(Player *player);
 void printMonster(void *data);
 void printItem(void *a);
+void showDefeated(GameState *g);
+void openBag(GameState *g);
+
+void printBST(BST *tree);
 
 
 //move
