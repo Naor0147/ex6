@@ -8,7 +8,6 @@ static void printRoomLegend(GameState *g);
 static void printLegendRecursive(Room *room);
 static void displayMap(GameState *g);
 
-
 static void printRoomLegend(GameState *g)
 {
     if (g->roomCount > 0)
@@ -34,7 +33,7 @@ static void printLegendRecursive(Room *room)
     // Recurse first to reach the end of the list
     printLegendRecursive(room->next);
 
-    // Print details on the way back 
+    // Print details on the way back
     char monsterStatus = (room->monster != NULL) ? 'V' : 'X';
     char itemStatus = (room->item != NULL) ? 'V' : 'X';
 
@@ -94,11 +93,9 @@ static void displayMap(GameState *g)
     free(grid);
 }
 
-
 /*==========
 MAIN FUNCTION
 ===========*/
-
 
 void playGame(GameState *g)
 {
@@ -107,31 +104,46 @@ void playGame(GameState *g)
         printf("Init player first\n");
         return;
     }
-    int playing=1;
+    int playing = 1;
 
     while (playing)
     {
-        g->player->currentRoom->visited = 1;//mark the room as visitied
+        // 1. DisplayMap
+        g->player->currentRoom->visited = 1; // mark the room as visitied
         displayMap(g);
-        printRoomLegend(g);    
+        printRoomLegend(g);
 
         // 2. Sub-menu
 
         int choice = getInt("1.Move 2.Fight 3.Pickup 4.Bag 5.Defeated 6.Quit\n");
 
-        switch (choice) {
-            case 1: movePlayer(g); break;
-            case 2: fightMonster(g); break;
-            case 3: pickupItem(g); break;
-            case 4: openBag(g); break;
-            case 5: showDefeated(g); break;
-            case 6: playing = 0; break; // Go back to Main Menu
-            default: break;
+        switch (choice)
+        {
+        case 1:
+            movePlayer(g);
+            break;
+        case 2:
+            fightMonster(g);
+            break;
+        case 3:
+            pickupItem(g);
+            break;
+        case 4:
+            openBag(g);
+            break;
+        case 5:
+            showDefeated(g);
+            break;
+        case 6:
+            playing = 0;
+            break; // Go back to Main Menu
+        default:
+            break;
         }
-
+        
     }
+    //check lose or win condtion
     
-
 }
 
 // Displays the current room details and player status
@@ -191,8 +203,8 @@ void addRoom(GameState *g)
     int direction = getInt("Direction (0=Up,1=Down,2=Left,3=Right): ");
     int x = theRoom->x;
     int y = theRoom->y;
-    int isValidUpdate =updatePosBaseOnDirection(&x,&y,direction);
-    if(isValidUpdate==FALSE)
+    int isValidUpdate = updatePosBaseOnDirection(&x, &y, direction);
+    if (isValidUpdate == FALSE)
     {
         printf("Room exists there\n");
         return;
@@ -416,12 +428,11 @@ void initPlayer(GameState *g)
         printf("Create rooms first\n");
         return;
     }
-    if (g->player!=NULL)
+    if (g->player != NULL)
     {
         printf("Player exists\n");
         return;
     }
-    
 
     Player *newPlayer = (Player *)malloc(sizeof(Player));
     newPlayer->maxHp = g->configMaxHp;
@@ -574,26 +585,23 @@ void freeGame(GameState *g)
     free(g);
 }
 
-
-void movePlayer(GameState *g){
+void movePlayer(GameState *g)
+{
     int direction = getInt("Direction (0=Up,1=Down,2=Left,3=Right): ");
-    int x=g->player->currentRoom->x;
-    int y=g->player->currentRoom->y;
-    updatePosBaseOnDirection(&x,&y,direction);
-    Room* room = findRoomByPostion(g->rooms,x,y);
-    if (room==NULL)
+    int x = g->player->currentRoom->x;
+    int y = g->player->currentRoom->y;
+    updatePosBaseOnDirection(&x, &y, direction);
+    Room *room = findRoomByPostion(g->rooms, x, y);
+    if (room == NULL)
     {
         return;
     }
-    g->player->currentRoom=room;
+    g->player->currentRoom = room;
     return;
-    
-    
-    
-
 }
 
-int updatePosBaseOnDirection(int *x,int *y,int direction){
+int updatePosBaseOnDirection(int *x, int *y, int direction)
+{
     if (direction == UP)
     {
         --(*y);
@@ -603,28 +611,25 @@ int updatePosBaseOnDirection(int *x,int *y,int direction){
     {
         ++(*y);
         return TRUE;
-
     }
     else if (direction == RIGHT)
     {
         ++(*x);
         return TRUE;
-
     }
     else if (direction == LEFT)
     {
         --(*x);
         return TRUE;
-
     }
     return FALSE;
 }
 
 void fightMonster(GameState *g)
 {
-    Player * myPlayer=g->player;
-    Monster* monster = myPlayer->currentRoom->monster;
-    if (monster==NULL)
+    Player *myPlayer = g->player;
+    Monster *monster = myPlayer->currentRoom->monster;
+    if (monster == NULL)
     {
         printf("No monster\n");
         return;
@@ -632,30 +637,27 @@ void fightMonster(GameState *g)
 
     while (1)
     {
-        monster->hp-=myPlayer->baseAttack;
-        if (monster->hp<=0)
+        monster->hp -= myPlayer->baseAttack;
+
+        monster->hp = (monster->hp <= 0) ? 0 : monster->hp;
+
+        printf("You deal %d damage. Monster HP: %d\n", myPlayer->baseAttack, monster->hp);
+        if (monster->hp <= 0)
         {
-            //monster died
-            printf("You deal %d damage. Monster HP: 0\n",myPlayer->baseAttack);
+            // monster died
             printf("Monster defeated!\n");
             freeMonster(monster);
-            monster=NULL;
-            myPlayer->currentRoom->monster=NULL;
+            monster = NULL;
+            myPlayer->currentRoom->monster = NULL;
             return;
         }
-        printf("You deal %d damage. Monster HP: %d\n",myPlayer->baseAttack,monster->hp);
-        myPlayer->hp-=monster->attack;
-        if (myPlayer->hp<=0)
+        myPlayer->hp -= monster->attack;
+        myPlayer->hp = (myPlayer->hp <= 0) ? 0 : myPlayer->hp;
+        printf("Monster deals %d damage. Your HP: %d\n", monster->attack,myPlayer->hp);
+        if (myPlayer->hp <= 0)
         {
-            printf("Monster deals %d damage. Your HP: 0\n",monster->attack);
             printf("--- YOU DIED ---\n");
+            return;
         }
-        
-
-        
-            
     }
-    
-
-    
 }
