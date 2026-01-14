@@ -441,5 +441,70 @@ void printItems(void *a)
 int compareMonsters(void *left, void *right){
     Monster* monsterLeft = (Monster*)left;
     Monster* monsterRight = (Monster*)right;
+    int nameCmp = strcmp(monsterLeft->name, monsterRight->name);
+    if (nameCmp != 0)
+    {
+        return nameCmp;
+    }
+    int attackDif=monsterLeft->attack-monsterRight->attack;
+    if (attackDif!=0)
+    {
+        return attackDif;
+    }
     
+    
+}
+
+
+/*
+ * Compares
+ * 1. Name (strcmp)
+ * 2. Attack
+ * 3. HP
+ * 4. Type
+ */
+int compareMonsters(void* a, void* b) {
+    Monster* monA = (Monster*)a;
+    Monster* monB = (Monster*)b;
+
+    // 1. Sort by Name (strcmp) [cite: 296]
+    int nameCmp = strcmp(monA->name, monB->name);
+    if (nameCmp != 0) {
+        return nameCmp;
+    }
+
+    // 2. Sort by Attack [cite: 297]
+    if (monA->attack != monB->attack) {
+        return monA->attack - monB->attack;
+    }
+
+    // 3. Sort by HP [cite: 298]
+    if (monA->hp != monB->hp) {
+        return monA->hp - monB->hp;
+    }
+
+    // 4. Sort by Type [cite: 299]
+    // (PHANTOM=0 < SPIDER=1 < DEMON=2 < GOLEM=3 < COBRA=4)
+    return monA->type - monB->type;
+}
+
+/*
+ * Prints a monster in the format:
+ * [Name] Type: TypeStr, Attack: X, HP: Y
+ */
+void printMonster(void* data) {
+    Monster* m = (Monster*)data;
+    
+    // Convert enum to string for printing
+    const char* typeStr = "Unknown";
+    switch(m->type) {
+        case PHANTOM: typeStr = "Phantom"; break;
+        case SPIDER:  typeStr = "Spider";  break;
+        case DEMON:   typeStr = "Demon";   break;
+        case GOLEM:   typeStr = "Golem";   break;
+        case COBRA:   typeStr = "Cobra";   break;
+    }
+
+    // Print exactly as in the example: [Goblin] Type: Phantom, Attack: 3, HP: 20 
+    printf("[%s] Type: %s, Attack: %d, HP: %d\n", m->name, typeStr, m->attack, m->hp);
 }
