@@ -75,11 +75,11 @@ void freeAllNodes(BSTNode *treeNode, void (*freeData)(void *))
 // Deletes The Tree and frees all the memory
 void deleteTree(BST *tree)
 {
-    if (tree==NULL)
+    if (tree == NULL)
     {
         return;
     }
-    
+
     freeAllNodes(tree->root, tree->freeData);
     free(tree);
 }
@@ -133,13 +133,11 @@ void bstPreorder(BSTNode *root, void (*print)(void *))
 // print left->right->node
 void bstPostorder(BSTNode *root, void (*print)(void *))
 {
+    if (root == NULL)
     {
-        if (root == NULL)
-        {
-            return;
-        }
-        bstPostorder(root->left, print);
-        bstPostorder(root->right, print);
-        print(root->data);
+        return;
     }
+    bstPostorder(root->left, print);
+    bstPostorder(root->right, print);
+    print(root->data);
 }

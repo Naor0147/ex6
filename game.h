@@ -28,7 +28,7 @@ typedef enum
 // their value are set automatly (0=Up,1=Down,2=Left,3=Right)
 #define TRUE 1
 #define FALSE 0
-
+#define EMPTY_CELL -1
 typedef struct Item
 {
     char *name;

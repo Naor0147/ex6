@@ -75,7 +75,7 @@ static void displayMap(GameState *g)
     {
         for (int j = 0; j < width; j++)
         {
-            if (grid[i][j] != -1)
+            if (grid[i][j] != EMPTY_CELL)
                 printf("[%2d]", grid[i][j]);
             else
                 printf("    ");
