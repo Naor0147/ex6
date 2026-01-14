@@ -619,3 +619,8 @@ int updatePosBaseOnDirection(int *x,int *y,int direction){
     }
     return FALSE;
 }
+
+void fightMonster(GameState *g)
+{
+
+}
