@@ -400,6 +400,7 @@ void initPlayer(GameState *g)
     newPlayer->defeatedMonsters->root = NULL;
     newPlayer->defeatedMonsters->compare = compareMonsters;
     newPlayer->defeatedMonsters->print = printMonster;
+    newPlayer->defeatedMonsters->freeData=freeMonster;
 
     g->player = newPlayer; //
 }
