@@ -8,16 +8,6 @@
 MAIN FUNCTION
 ===========*/
 
-void playGame(GameState *g)
-{
-    if (g == NULL || g->player == NULL)
-    {
-        printf("Init player first\n");
-        return;
-    }
-    displayMap(g);
-    printRoomLegend(g);
-}
 
 static void printRoomLegend(GameState *g)
 {
@@ -103,6 +93,24 @@ static void displayMap(GameState *g)
         free(grid[i]);
     free(grid);
 }
+
+
+void playGame(GameState *g)
+{
+    if (g == NULL || g->player == NULL)
+    {
+        printf("Init player first\n");
+        return;
+    }
+    displayMap(g);
+    printRoomLegend(g);
+}
+
+
+
+
+
+
 
 // Displays the current room details and player status
 /* like

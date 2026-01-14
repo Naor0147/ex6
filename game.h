@@ -117,9 +117,8 @@ static void printRoomLegend(GameState *g);
 void printMonster(void *data);
 void printItems(void *a);
 
-//static print 
-static void displayMap(GameState *g);
-static void printLegendRecursive(Room *room);
+
+
 
 
 
