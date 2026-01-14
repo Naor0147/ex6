@@ -15,7 +15,7 @@ static void printRoomLegend(GameState *g)
 
         printf("=== ROOM LEGEND ===\n");
         printLegendRecursive(g->rooms);
-        printf("===================\n");
+        printf("===================\n\n");
     }
 
     if (g->player != NULL)
