@@ -397,8 +397,8 @@ Bag Functions
 =============*/
 
 
-int compareItems(void* a, void* b) {
+int compareItems(void* left, void* right) {
     // Cast the generic void pointers back to Item pointers
-    Item* itemA = (Item*)a;
-    Item* itemB = (Item*)b;
+    Item* itemA = (Item*)left;
+    Item* itemB = (Item*)right;
 }
