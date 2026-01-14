@@ -582,5 +582,24 @@ void freeGame(GameState *g)
 
 void movePlayer(GameState *g){
     int direction = getInt("Direction (0=Up,1=Down,2=Left,3=Right): ");
-    
+
+}
+
+void upadetPosBaseOnDirection(int *x,int *y,int direction){
+    if (direction == UP)
+    {
+        --(*y);
+    }
+    else if (direction == DOWN)
+    {
+        ++(*y);
+    }
+    else if (direction == RIGHT)
+    {
+        ++(*x);
+    }
+    else if (direction == LEFT)
+    {
+        --(*x);
+    }
 }
