@@ -108,8 +108,18 @@ Item *addItemFunction(int userInputValue);
 
 // Memory & Utils
 void removeRoomFromMemory(Room *roomToRemove);
+void freeMonster(void *data);
+
 
 // print
 void displayPlayerRoomDetails(Player *player);
+static void printRoomLegend(GameState *g);
+void printMonster(void *data);
+void printItems(void *a);
+
+//compare
+int compareMonsters(void *left, void *right);
+int compareItems(void *left, void *right);
+
 
 #endif

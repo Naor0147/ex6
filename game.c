@@ -8,23 +8,35 @@
 MAIN FUNCTION
 ===========*/
 
-void playGame(GameState *g){
-    if (g==NULL || g->player==NULL)
+void playGame(GameState *g)
+{
+    if (g == NULL || g->player == NULL)
     {
         printf("Init player first\n");
         return;
     }
+    displayMap(g);
+    printRoomLegend(g);
     
 
-    
 
 }
 
+static void printRoomLegend(GameState *g)
+{
+    if (g->roomCount > 0)
+    {
 
+        printf("=== ROOM LEGEND ===\n");
+        printLegendRecursive(g->rooms);
+        printf("===================\n");
+    }
 
-
-
-
+    if (g->player != NULL)
+    {
+        displayPlayerRoomDetails(g->player);
+    }
+}
 
 // Helper function to print legend in descending order (Recursive)
 static void printLegendRecursive(Room *room)
@@ -93,20 +105,6 @@ static void displayMap(GameState *g)
     for (int i = 0; i < height; i++)
         free(grid[i]);
     free(grid);
-
-    // new
-    if (g->roomCount > 0)
-    {
-
-        printf("=== ROOM LEGEND ===\n");
-        printLegendRecursive(g->rooms);
-        printf("===================\n");
-    }
-
-    if (g->player != NULL)
-    {
-        displayPlayerRoomDetails(g->player);
-    }
 }
 
 // Displays the current room details and player status
@@ -422,9 +420,9 @@ void initPlayer(GameState *g)
     newPlayer->defeatedMonsters->root = NULL;
     newPlayer->defeatedMonsters->compare = compareMonsters;
     newPlayer->defeatedMonsters->print = printMonster;
-    newPlayer->defeatedMonsters->freeData=freeMonster;
+    newPlayer->defeatedMonsters->freeData = freeMonster;
 
-    g->player = newPlayer; 
+    g->player = newPlayer;
 }
 
 /*==========
