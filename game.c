@@ -497,7 +497,7 @@ void printItem(void *a)
     {
         itemType = "SWORD";
     }
-    printf("\t\t[%s] %s - Value: %d\n", itemType, item->name, item->value);
+    printf("\t[%s] %s - Value: %d\n", itemType, item->name, item->value);
 }
 
 /*
@@ -552,7 +552,7 @@ void printMonster(void *data)
         typeStr = "Cobra";
         break;
     }
-    printf("\t\t[%s] Type: %s, Attack: %d, HP: %d\n", monster->name, typeStr, monster->attack, monster->maxHp);
+    printf("\t[%s] Type: %s, Attack: %d, HP: %d\n", monster->name, typeStr, monster->attack, monster->maxHp);
 }
 
 // free memory
