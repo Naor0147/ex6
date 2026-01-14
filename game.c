@@ -647,7 +647,6 @@ void fightMonster(GameState *g)
             printf("Monster defeated!\n");
             BST *defatedMonster = myPlayer->defeatedMonsters;
             myPlayer->defeatedMonsters->root = bstInsert(defatedMonster->root, monster, defatedMonster->compare);
-            freeMonster(monster);
             monster = NULL;
             myPlayer->currentRoom->monster = NULL;
             return;
@@ -670,34 +669,46 @@ void checkWin(GameState *g)
     Room *checkRoom = g->rooms;
     while (checkRoom != NULL)
     {
-        if (checkRoom->monster!=NULL ||checkRoom->visited==0)
+        if (checkRoom->monster != NULL || checkRoom->visited == 0)
         {
-            return ;
+            return;
         }
-        checkRoom=checkRoom->next;
-        
+        checkRoom = checkRoom->next;
     }
     printf("***************************************\n");
-    printf("             VICTORY!\n");//probaly 4 tabs
+    printf("             VICTORY!\n"); // probaly 4 tabs
     printf("All rooms explored. All monsters defeated.\n");
     printf("***************************************\n");
 }
 
-
-
 void pickupItem(GameState *g)
 {
-    if (g->rooms->monster!=NULL)
+    //there is a monster in the room
+    if (g->rooms->monster != NULL)
     {
         printf("Kill monster first\n");
         return;
     }
-    if (g->rooms->item==NULL)
+
+    //the item in the curent room 
+    Item *myItem = g->player->currentRoom->item;
+    if (myItem == NULL)
     {
         printf("No item here\n");
         return;
     }
-    g->player->bag->root=bstInsert(g->player->bag->root,g->rooms->item,g->player->bag->compare);
-    
-    
+
+
+    BSTNode *root = g->player->bag->root;
+    int (*compareFunction)(void *, void *) = g->player->bag->compare;
+    if (bstFind(root, myItem, compareFunction) != NULL)
+    {
+        printf("Duplicate item.\n");
+        return;
+    }
+
+    g->player->bag->root = bstInsert(root, myItem, compareFunction);
+
+    printf("Picked up %s\n", myItem->name);
+    g->rooms->item = NULL; // Remove the item from the room
 }
