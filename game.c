@@ -8,9 +8,6 @@ static void printRoomLegend(GameState *g);
 static void printLegendRecursive(Room *room);
 static void displayMap(GameState *g);
 
-/*==========
-MAIN FUNCTION
-===========*/
 
 static void printRoomLegend(GameState *g)
 {
@@ -96,6 +93,12 @@ static void displayMap(GameState *g)
         free(grid[i]);
     free(grid);
 }
+
+
+/*==========
+MAIN FUNCTION
+===========*/
+
 
 void playGame(GameState *g)
 {

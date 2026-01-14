@@ -117,8 +117,9 @@ void printMonster(void *data);
 void printItem(void *a);
 
 
-
+//move
 int updatePosBaseOnDirection(int *x,int *y,int direction);
+void movePlayer(GameState *g);
 
 
 
