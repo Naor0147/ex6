@@ -17,9 +17,6 @@ void playGame(GameState *g)
     }
     displayMap(g);
     printRoomLegend(g);
-    
-
-
 }
 
 static void printRoomLegend(GameState *g)
@@ -526,21 +523,4 @@ void printMonster(void *data)
         break;
     }
     printf("[%s] Type: %s, Attack: %d, HP: %d\n", monster->name, typeStr, monster->attack, monster->hp);
-}
-
-void freeMonster(void *data)
-{
-    if (data == NULL)
-    {
-        return;
-    }
-    Monster *monster = (Monster *)data;
-
-    if (monster->name != NULL)
-    {
-        free(monster->name);
-    }
-
-    free(monster);
-    return;
 }
