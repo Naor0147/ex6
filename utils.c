@@ -1,3 +1,11 @@
+/***********
+ ID:329218416
+ NAME:Naor Biton
+ ASSIGNMENT:ex6
+***********/
+
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

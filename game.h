@@ -1,7 +1,16 @@
+/***********
+ ID:329218416
+ NAME:Naor Biton
+ ASSIGNMENT:ex6
+***********/
+
+
 #ifndef GAME_H
 #define GAME_H
 
 #include "bst.h"
+
+
 
 typedef enum
 {

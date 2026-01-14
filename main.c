@@ -1,13 +1,15 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "game.h"
-#include "utils.h"
-
 /***********
  ID:329218416
  NAME:Naor Biton
  ASSIGNMENT:ex6
 ***********/
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include "game.h"
+#include "utils.h"
+
 
 typedef void (*ActionFunc)(GameState *);
 

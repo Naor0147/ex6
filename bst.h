@@ -1,3 +1,9 @@
+/***********
+ ID:329218416
+ NAME:Naor Biton
+ ASSIGNMENT:ex6
+***********/
+
 #ifndef BST_H
 #define BST_H
 
