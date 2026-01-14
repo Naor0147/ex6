@@ -20,6 +20,7 @@ static void printRoomLegend(GameState *g)
 
     if (g->player != NULL)
     {
+        printf("\n");
         displayPlayerRoomDetails(g->player);
     }
 }
@@ -112,7 +113,6 @@ void playGame(GameState *g)
         // 1. DisplayMap
         g->player->currentRoom->visited = 1; // mark the room as visitied
         displayMap(g);
-        printf("\n");
         printRoomLegend(g);
         // 2. Sub-menu
 
