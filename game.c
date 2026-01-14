@@ -143,7 +143,7 @@ void playGame(GameState *g)
         
     }
     //check lose or win condtion
-    
+
 }
 
 // Displays the current room details and player status
@@ -646,6 +646,7 @@ void fightMonster(GameState *g)
         {
             // monster died
             printf("Monster defeated!\n");
+            myPlayer->defeatedMonsters->root=bstInsert(myPlayer->defeatedMonsters->root,monster,myPlayer->defeatedMonsters->compare);
             freeMonster(monster);
             monster = NULL;
             myPlayer->currentRoom->monster = NULL;
@@ -657,6 +658,8 @@ void fightMonster(GameState *g)
         if (myPlayer->hp <= 0)
         {
             printf("--- YOU DIED ---\n");
+            freeGame(g); //free everything before exiting
+            exit(0);
             return;
         }
     }
