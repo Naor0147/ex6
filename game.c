@@ -421,5 +421,12 @@ int compareItems(void *left, void *right)
 void printItems(void *a){
     Item *item = (Item *)a;
     
+    char itemType="ARMOR";
+    if (item->type==SWORD)
+    {
+        itemType="SWORD";
+    }
+    printf("[%s] %s - Value: %d\n", itemType, item->name, item->value);
+    
     
 }
