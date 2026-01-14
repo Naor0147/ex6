@@ -3,10 +3,18 @@
 #include "game.h"
 #include "utils.h"
 
-typedef void (*ActionFunc)(GameState*);
+/***********
+ ID:329218416
+ NAME:Naor Biton
+ ASSIGNMENT:ex6
+***********/
 
-int main(int argc, char* argv[]) {
-    if (argc != 3) {
+typedef void (*ActionFunc)(GameState *);
+
+int main(int argc, char *argv[])
+{
+    if (argc != 3)
+    {
         printf("Usage: %s <player_hp> <base_attack>\n", argv[0]);
         return 1;
     }
@@ -18,11 +26,14 @@ int main(int argc, char* argv[]) {
     ActionFunc actions[] = {NULL, addRoom, initPlayer, playGame};
 
     int running = 1;
-    while (running) {
+    while (running)
+    {
         printf("\n=== MENU ===\n1.Add Room\n2.Init Player\n3.Play\n4.Exit\n");
         int c = getInt("Choice: ");
-        if (c == 4) running = 0;
-        else if (c >= 1 && c <= 3) actions[c](&game);
+        if (c == 4)
+            running = 0;
+        else if (c >= 1 && c <= 3)
+            actions[c](&game);
     }
 
     freeGame(&game);
