@@ -192,7 +192,8 @@ void addRoom(GameState *g)
     }
 
     displayMap(g);
-
+    printRoomLegend(g);
+    
     int roomId = getInt("Attach to room ID: ");
     Room *theRoom = findRoomByID(g->rooms, roomId);
     if (theRoom == NULL)
