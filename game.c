@@ -713,3 +713,9 @@ void pickupItem(GameState *g)
     printf("Picked up %s\n", myItem->name);
     currentRoom->item = NULL; // Remove the item from the room
 }
+
+void openBag(GameState *g)
+{
+    printf("=== INVENTORY ===\n");
+    
+}
