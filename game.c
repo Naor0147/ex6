@@ -378,14 +378,22 @@ void initPlayer(GameState *g)
     {
         return;
     }
+    if (g->rooms == NULL) {
+        printf("Create rooms first\n"); 
+        return;
+    }
+
     Player *newPlayer = (Player *)malloc(sizeof(Player));
     newPlayer->maxHp = g->configMaxHp;
     newPlayer->hp = g->configMaxHp;
     newPlayer->baseAttack = g->configBaseAttack;
     newPlayer->currentRoom = g->rooms;
 
-    // need to create BST tree of bag
-    // newPlayer->bag =
+    newPlayer->bag =(BST *)malloc(sizeof(BST));
+    newPlayer->bag->compare=compareItems;
+    newPlayer->bag->print=printItem;
+    newPlayer->bag->freeData=freeItem;
+    newPlayer->bag->root=NULL;
 }
 
 /*==========
@@ -428,4 +436,10 @@ void printItems(void *a)
         itemType = "SWORD";
     }
     printf("[%s] %s - Value: %d\n", itemType, item->name, item->value);
+}
+
+int compareMonsters(void *left, void *right){
+    Monster* monsterLeft = (Monster*)left;
+    Monster* monsterRight = (Monster*)right;
+    
 }
