@@ -636,7 +636,18 @@ void fightMonster(GameState *g)
         if (monster->hp<=0)
         {
             //monster died
+            printf("You deal %d damage. Monster HP: 0\n",myPlayer->baseAttack);
+            printf("Monster defeated! ");
+            freeMonster(monster);
+            monster=NULL;
+            myPlayer->currentRoom->monster=NULL;
+            return;
         }
+        printf("You deal %d damage. Monster HP: %d\n",myPlayer->baseAttack,monster->hp);
+        myPlayer->hp-=monster->attack;
+        
+
+        
             
     }
     
