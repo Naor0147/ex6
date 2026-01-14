@@ -4,6 +4,28 @@
 #include "game.h"
 #include "utils.h"
 
+/*==========
+MAIN FUNCTION
+===========*/
+
+void playGame(GameState *g){
+    if (g==NULL || g->player==NULL)
+    {
+        printf("Init player first\n");
+        return;
+    }
+    
+
+    
+
+}
+
+
+
+
+
+
+
 // Helper function to print legend in descending order (Recursive)
 static void printLegendRecursive(Room *room)
 {
