@@ -680,7 +680,7 @@ void checkWin(GameState *g)
         checkRoom = checkRoom->next;
     }
     printf("***************************************\n");
-    printf("             VICTORY!\n"); // probaly 4 tabs
+    printf("             VICTORY!                  \n"); // probaly 4 tabs
     printf("All rooms explored. All monsters defeated.\n");
     printf("***************************************\n");
     freeGame(g);
