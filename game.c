@@ -587,6 +587,12 @@ void freeGame(GameState *g)
 
 void movePlayer(GameState *g)
 {
+    if (g->player->currentRoom->monster != NULL)
+    {
+        printf("Kill monster first\n");
+        return;
+    }
+
     int direction = getInt("Direction (0=Up,1=Down,2=Left,3=Right): ");
     int x = g->player->currentRoom->x;
     int y = g->player->currentRoom->y;
