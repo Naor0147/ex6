@@ -536,3 +536,35 @@ void printMonster(void *data)
     }
     printf("[%s] Type: %s, Attack: %d, HP: %d\n", monster->name, typeStr, monster->attack, monster->hp);
 }
+
+//free memory
+void freeGame(GameState *g){
+    if (g==NULL)
+    {
+        return;
+    }
+    if (g->player!=NULL)
+    {
+        deleteTree(g->player->bag);
+        deleteTree(g->player->defeatedMonsters);
+        free(g->player);
+        g->player=NULL;
+    }
+    if (g->rooms!=NULL)
+    {
+        Room* currentRoom=g->rooms;
+        while(currentRoom!=NULL){
+            Room *next = currentRoom->next;
+            removeRoomFromMemory(currentRoom); 
+            currentRoom = next;
+        }
+    }
+    free(g);
+
+    
+    
+    
+
+}
+
+
