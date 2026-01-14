@@ -622,5 +622,12 @@ int updatePosBaseOnDirection(int *x,int *y,int direction){
 
 void fightMonster(GameState *g)
 {
-
+    Monster* monster = g->player->currentRoom->monster;
+    if (monster==NULL)
+    {
+        printf("No monster\n");
+        return;
+    }
+    
+    
 }
