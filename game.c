@@ -506,3 +506,12 @@ void printMonster(void *data)
     }
     printf("[%s] Type: %s, Attack: %d, HP: %d\n", monster->name, typeStr, monster->attack, monster->hp);
 }
+
+void freeMonster(void *data)
+{
+    Monster *monster = (Monster *)data;
+    free(monster->name);
+    free(monster);
+    return;
+
+}
