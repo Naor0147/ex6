@@ -108,6 +108,7 @@ void playGame(GameState *g)
 
     while (playing)
     {
+        checkWin(g);
         // 1. DisplayMap
         g->player->currentRoom->visited = 1; // mark the room as visitied
         displayMap(g);
@@ -140,8 +141,6 @@ void playGame(GameState *g)
         default:
             break;
         }
-        checkWin(g);
-
     }
     // win condtion
 }
@@ -193,7 +192,7 @@ void addRoom(GameState *g)
 
     displayMap(g);
     printRoomLegend(g);
-    
+
     int roomId = getInt("Attach to room ID: ");
     Room *theRoom = findRoomByID(g->rooms, roomId);
     if (theRoom == NULL)
@@ -584,7 +583,6 @@ void freeGame(GameState *g)
             currentRoom = next;
         }
     }
-
 }
 
 void movePlayer(GameState *g)
@@ -682,7 +680,7 @@ void checkWin(GameState *g)
     printf("             VICTORY!\n"); // probaly 4 tabs
     printf("All rooms explored. All monsters defeated.\n");
     printf("***************************************\n");
-    freeGame(g); 
+    freeGame(g);
     exit(0);
 }
 
@@ -722,7 +720,7 @@ void openBag(GameState *g)
 {
     printf("=== INVENTORY ===\n");
     BST *bag = g->player->bag;
-    if (bag==NULL)
+    if (bag == NULL)
     {
         printf("        Empty");
         return;
@@ -734,7 +732,7 @@ void showDefeated(GameState *g)
 {
     printf("=== DEFEATED MONSTERS ===\n");
     BST *defeatedMonsters = g->player->defeatedMonsters;
-    if (defeatedMonsters==NULL)
+    if (defeatedMonsters == NULL)
     {
         printf("        None");
         return;
@@ -748,7 +746,7 @@ void printBST(BST *tree)
 
     int order = getInt("1.Preorder 2.Inorder 3.Postorder\n");
     void (*print)(void *) = tree->print;
-    BSTNode *root=tree->root;
+    BSTNode *root = tree->root;
     switch (order)
     {
     case 1:
