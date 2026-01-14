@@ -509,9 +509,17 @@ void printMonster(void *data)
 
 void freeMonster(void *data)
 {
+    if (data == NULL)
+    {
+        return;
+    }
     Monster *monster = (Monster *)data;
-    free(monster->name);
+
+    if (monster->name = NULL)
+    {
+        free(monster->name);
+    }
+
     free(monster);
     return;
-
 }
