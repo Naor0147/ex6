@@ -113,9 +113,8 @@ void freeMonster(void *data);
 
 // print
 void displayPlayerRoomDetails(Player *player);
-static void printRoomLegend(GameState *g);
 void printMonster(void *data);
-void printItems(void *a);
+void printItem(void *a);
 
 
 

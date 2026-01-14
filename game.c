@@ -4,6 +4,10 @@
 #include "game.h"
 #include "utils.h"
 
+static void printRoomLegend(GameState *g);
+static void printLegendRecursive(Room *room);
+static void displayMap(GameState *g);
+
 /*==========
 MAIN FUNCTION
 ===========*/
@@ -466,7 +470,7 @@ int compareItems(void *left, void *right)
     // Return 0 if equal
     return itemLeft->type - itemRight->type;
 }
-void printItems(void *a)
+void printItem(void *a)
 {
     Item *item = (Item *)a;
 
