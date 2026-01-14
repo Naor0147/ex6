@@ -12,6 +12,9 @@ int getInt(const char *prompt)
     return value;
 }
 
+
+
+
 char *getString(const char *prompt)
 {
     printf("%s\n", prompt);
