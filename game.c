@@ -672,7 +672,7 @@ void checkWin(GameState *g)
     {
         if (checkRoom->monster!=NULL ||checkRoom->visited==0)
         {
-            return 0;
+            return ;
         }
         checkRoom=checkRoom->next;
         
@@ -697,7 +697,7 @@ void pickupItem(GameState *g)
         printf("No item here\n");
         return;
     }
-    g->rooms->item=bstInsert(g->player->bag->root,g->rooms->item,g->player->bag->compare);
+    g->player->bag->root=bstInsert(g->player->bag->root,g->rooms->item,g->player->bag->compare);
     
     
 }
