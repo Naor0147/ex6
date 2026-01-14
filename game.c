@@ -566,6 +566,7 @@ void freeGame(GameState *g)
     }
     if (g->player != NULL)
     {
+
         deleteTree(g->player->bag);
         deleteTree(g->player->defeatedMonsters);
         free(g->player);
@@ -581,7 +582,7 @@ void freeGame(GameState *g)
             currentRoom = next;
         }
     }
-    free(g);
+
 }
 
 void movePlayer(GameState *g)
