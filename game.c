@@ -12,7 +12,6 @@ static void displayMap(GameState *g);
 MAIN FUNCTION
 ===========*/
 
-
 static void printRoomLegend(GameState *g)
 {
     if (g->roomCount > 0)
@@ -98,7 +97,6 @@ static void displayMap(GameState *g)
     free(grid);
 }
 
-
 void playGame(GameState *g)
 {
     if (g == NULL || g->player == NULL)
@@ -109,12 +107,6 @@ void playGame(GameState *g)
     displayMap(g);
     printRoomLegend(g);
 }
-
-
-
-
-
-
 
 // Displays the current room details and player status
 /* like
@@ -537,34 +529,29 @@ void printMonster(void *data)
     printf("[%s] Type: %s, Attack: %d, HP: %d\n", monster->name, typeStr, monster->attack, monster->hp);
 }
 
-//free memory
-void freeGame(GameState *g){
-    if (g==NULL)
+// free memory
+void freeGame(GameState *g)
+{
+    if (g == NULL)
     {
         return;
     }
-    if (g->player!=NULL)
+    if (g->player != NULL)
     {
         deleteTree(g->player->bag);
         deleteTree(g->player->defeatedMonsters);
         free(g->player);
-        g->player=NULL;
+        g->player = NULL;
     }
-    if (g->rooms!=NULL)
+    if (g->rooms != NULL)
     {
-        Room* currentRoom=g->rooms;
-        while(currentRoom!=NULL){
+        Room *currentRoom = g->rooms;
+        while (currentRoom != NULL)
+        {
             Room *next = currentRoom->next;
-            removeRoomFromMemory(currentRoom); 
+            removeRoomFromMemory(currentRoom);
             currentRoom = next;
         }
     }
     free(g);
-
-    
-    
-    
-
 }
-
-
