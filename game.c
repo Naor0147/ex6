@@ -413,6 +413,12 @@ void initPlayer(GameState *g)
         printf("Create rooms first\n");
         return;
     }
+    if (g->player!=NULL)
+    {
+        printf("Player exists\n");
+        return;
+    }
+    
 
     Player *newPlayer = (Player *)malloc(sizeof(Player));
     newPlayer->maxHp = g->configMaxHp;
@@ -568,6 +574,19 @@ void freeGame(GameState *g)
 
 void movePlayer(GameState *g){
     int direction = getInt("Direction (0=Up,1=Down,2=Left,3=Right): ");
+    int x=g->player->currentRoom->x;
+    int y=g->player->currentRoom->y;
+    updatePosBaseOnDirection(&x,&y,direction);
+    Room* room = findRoomByPostion(g->rooms,x,y);
+    if (room==NULL)
+    {
+        return;
+    }
+    g->player->currentRoom=room;
+    return;
+    
+    
+    
 
 }
 
