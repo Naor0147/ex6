@@ -670,7 +670,12 @@ void checkWin(GameState *g)
     Room *checkRoom = g->rooms;
     while (checkRoom != NULL)
     {
-        /* code */
+        if (checkRoom->monster!=NULL ||checkRoom->visited==0)
+        {
+            return 0;
+        }
+        checkRoom=checkRoom->next;
+        
     }
     printf("***************************************\n");
     printf("             VICTORY!\n");//probaly 4 tabs
