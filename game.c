@@ -104,8 +104,16 @@ void playGame(GameState *g)
         printf("Init player first\n");
         return;
     }
+    int play=1;
+    while (play)
+    {
     displayMap(g);
-    printRoomLegend(g);
+    printRoomLegend(g);    
+
+
+    }
+    
+
 }
 
 // Displays the current room details and player status
