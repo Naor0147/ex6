@@ -6,18 +6,15 @@
 int getInt(const char *prompt)
 {
     printf("%s", prompt);
-    int value=-1;
+    int value = -1;
     scanf("%d", &value);
     clearBuffer();
     return value;
 }
 
-
-
-
 char *getString(const char *prompt)
 {
-    printf("%s\n", prompt);
+    printf("%s", prompt);
     return getStringScanf();
 }
 
