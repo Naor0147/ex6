@@ -684,21 +684,20 @@ void checkWin(GameState *g)
 void pickupItem(GameState *g)
 {
     Room *currentRoom = g->player->currentRoom;
-    //there is a monster in the room
+    // there is a monster in the room
     if (currentRoom->monster != NULL)
     {
         printf("Kill monster first\n");
         return;
     }
 
-    //the item in the curent room 
+    // the item in the curent room
     Item *myItem = currentRoom->item;
     if (myItem == NULL)
     {
         printf("No item here\n");
         return;
     }
-
 
     BSTNode *root = g->player->bag->root;
     int (*compareFunction)(void *, void *) = g->player->bag->compare;
@@ -717,5 +716,44 @@ void pickupItem(GameState *g)
 void openBag(GameState *g)
 {
     printf("=== INVENTORY ===\n");
-    
+    BST *bag = g->player->bag;
+    if (bag==NULL)
+    {
+        printf("        Empty");
+        return;
+    }
+
+    printBST(bag);
+}
+void showDefeated(GameState *g)
+{
+    printf("=== DEFEATED MONSTERS ===\n");
+    BST *defeatedMonsters = g->player->defeatedMonsters;
+    if (defeatedMonsters==NULL)
+    {
+        printf("        None");
+        return;
+    }
+
+    printBST(defeatedMonsters);
+}
+
+void printBST(BST *tree)
+{
+
+    int order = getInt("1.Preorder 2.Inorder 3.Postorder\n");
+    void (*print)(void *) = tree->print;
+    BSTNode *root=tree->root;
+    switch (order)
+    {
+    case 1:
+        bstPreorder(root, print);
+        break;
+    case 2:
+        bstInorder(root, print);
+        break;
+    case 3:
+        bstPostorder(root, print);
+        break;
+    }
 }
