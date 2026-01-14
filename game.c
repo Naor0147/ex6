@@ -388,3 +388,17 @@ void initPlayer(GameState *g){
     //newPlayer->bag =
     
 }
+
+
+
+
+/*==========
+Bag Functions 
+=============*/
+
+
+int compareItems(void* a, void* b) {
+    // Cast the generic void pointers back to Item pointers
+    Item* itemA = (Item*)a;
+    Item* itemB = (Item*)b;
+}
