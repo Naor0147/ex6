@@ -415,18 +415,17 @@ int compareItems(void *left, void *right)
     // ARMOR (0) comes before SWORD (1)
     // Since ARMOR is 0 and SWORD is 1
     // (0 - 1) is negative (Left), (1 - 0) is positive (Right)
-    // Return 0 if equal 
+    // Return 0 if equal
     return itemLeft->type - itemRight->type;
 }
-void printItems(void *a){
+void printItems(void *a)
+{
     Item *item = (Item *)a;
-    
-    char* itemType="ARMOR";
-    if (item->type==SWORD)
+
+    char *itemType = "ARMOR";
+    if (item->type == SWORD)
     {
-        itemType="SWORD";
+        itemType = "SWORD";
     }
     printf("[%s] %s - Value: %d\n", itemType, item->name, item->value);
-    
-    
 }
