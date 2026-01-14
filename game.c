@@ -386,4 +386,5 @@ void initPlayer(GameState *g){
     
     //need to create BST tree of bag
     //newPlayer->bag =
+    
 }
