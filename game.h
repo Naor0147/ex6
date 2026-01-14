@@ -128,5 +128,12 @@ void movePlayer(GameState *g);
 int compareMonsters(void *left, void *right);
 int compareItems(void *left, void *right);
 
+//fight 
+void fightMonster(GameState *g);
+void checkWin(GameState *g);
+
+//pick up item 
+void pickupItem(GameState *g);
+
 
 #endif

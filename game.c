@@ -682,3 +682,14 @@ void checkWin(GameState *g)
     printf("All rooms explored. All monsters defeated.\n");
     printf("***************************************\n");
 }
+
+
+
+void pickupItem(GameState *g)
+{
+    if (g->rooms->monster!=NULL)
+    {
+        /* code */
+    }
+    
+}
