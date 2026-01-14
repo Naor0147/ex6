@@ -683,15 +683,16 @@ void checkWin(GameState *g)
 
 void pickupItem(GameState *g)
 {
+    Room *currentRoom = g->player->currentRoom;
     //there is a monster in the room
-    if (g->rooms->monster != NULL)
+    if (currentRoom->monster != NULL)
     {
         printf("Kill monster first\n");
         return;
     }
 
     //the item in the curent room 
-    Item *myItem = g->player->currentRoom->item;
+    Item *myItem = currentRoom->item;
     if (myItem == NULL)
     {
         printf("No item here\n");
@@ -710,5 +711,5 @@ void pickupItem(GameState *g)
     g->player->bag->root = bstInsert(root, myItem, compareFunction);
 
     printf("Picked up %s\n", myItem->name);
-    g->rooms->item = NULL; // Remove the item from the room
+    currentRoom->item = NULL; // Remove the item from the room
 }
