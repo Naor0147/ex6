@@ -5,7 +5,7 @@
 
 int getInt(const char *prompt)
 {
-    printf("\n%s", prompt);
+    printf("%s", prompt);
     int value;
     scanf("%d", &value);
     clearBuffer();
