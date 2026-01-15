@@ -4,17 +4,11 @@
  ASSIGNMENT:ex6
 ***********/
 
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "game.h"
 #include "utils.h"
-#include "bst.h"
-
-
-
 
 static void printRoomLegend(GameState *g);
 static void printLegendRecursive(Room *room);
@@ -188,7 +182,6 @@ void displayPlayerRoomDetails(Player *player)
     printf("HP: %d/%d\n", player->hp, player->maxHp);
 }
 
-
 void addRoom(GameState *g)
 {
     if (g->roomCount == 0)
@@ -215,7 +208,6 @@ void addRoom(GameState *g)
     if (isValidUpdate == FALSE)
     {
         printf("Room exists there\n");
-        printf("Invalid direction\n");
         return;
     }
 
@@ -454,8 +446,6 @@ void initPlayer(GameState *g)
     newPlayer->bag->print = printItem;
     newPlayer->bag->freeData = freeItem;
     newPlayer->bag->root = NULL;
-    newPlayer->bag = createBST(compareItems, printItem, freeItem);
-    newPlayer->defeatedMonsters = createBST(compareMonsters, printMonster, freeMonster);
 
     newPlayer->defeatedMonsters = (BST *)malloc(sizeof(BST));
     newPlayer->defeatedMonsters->root = NULL;
@@ -550,23 +540,23 @@ void printMonster(void *data)
     const char *typeStr = "Unknown";
     switch (monster->type)
     {
-        case PHANTOM:
-            typeStr = "Phantom";
-            break;
-        case SPIDER:
-            typeStr = "Spider";
-            break;
-        case DEMON:
-            typeStr = "Demon";
-            break;
-        case GOLEM:
-            typeStr = "Golem";
-            break;
-        case COBRA:
-            typeStr = "Cobra";
-            break;
-        default:
-            break;
+    case PHANTOM:
+        typeStr = "Phantom";
+        break;
+    case SPIDER:
+        typeStr = "Spider";
+        break;
+    case DEMON:
+        typeStr = "Demon";
+        break;
+    case GOLEM:
+        typeStr = "Golem";
+        break;
+    case COBRA:
+        typeStr = "Cobra";
+        break;
+    default:
+        break;
     }
     printf("\t[%s] Type: %s, Attack: %d, HP: %d\n", monster->name, typeStr, monster->attack, monster->maxHp);
 }
