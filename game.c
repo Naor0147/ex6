@@ -741,7 +741,7 @@ void showDefeated(GameState *g)
 {
     printf("=== DEFEATED MONSTERS ===\n");
     BST *defeatedMonsters = g->player->defeatedMonsters;
-    if (defeatedMonsters == NULL)
+    if (defeatedMonsters == NULL || defeatedMonsters->root == NULL)
     {
         printf("        None");
         return;
