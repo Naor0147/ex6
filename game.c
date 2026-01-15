@@ -731,7 +731,7 @@ void openBag(GameState *g)
     BST *bag = g->player->bag;
     if (bag == NULL || bag->root == NULL)
     {
-        printf("        Empty\n");
+        printf("\t\tEmpty\n");
         return;
     }
 
@@ -743,7 +743,7 @@ void showDefeated(GameState *g)
     BST *defeatedMonsters = g->player->defeatedMonsters;
     if (defeatedMonsters == NULL || defeatedMonsters->root == NULL)
     {
-        printf("        None\n");
+        printf("\t\tNone\n");
         return;
     }
 
