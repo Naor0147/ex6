@@ -32,11 +32,14 @@ char *getStringScanf()
     int stringSize = 1; // start from 1 to save \0
     char *string = (char *)malloc(stringSize * (sizeof(char)));
     char CurrentChar = getchar(); // gets the first char
+    int CurrentChar = getchar(); // gets the first char
 
     // if the char is not new line keep getting chars
     while (CurrentChar != '\n')
+    while (CurrentChar != '\n' && CurrentChar != EOF)
     {
         string[stringSize - 1] = CurrentChar;                  // save char
+        string[stringSize - 1] = (char)CurrentChar;            // save char
         stringSize++;                                          // increase size
         string = realloc(string, stringSize * (sizeof(char))); // make space for new char
         CurrentChar = getchar();                               // get the next char

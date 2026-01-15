@@ -11,6 +11,7 @@
 #include <string.h>
 #include "game.h"
 #include "utils.h"
+#include "bst.h"
 
 
 
@@ -214,6 +215,7 @@ void addRoom(GameState *g)
     if (isValidUpdate == FALSE)
     {
         printf("Room exists there\n");
+        printf("Invalid direction\n");
         return;
     }
 
@@ -452,6 +454,8 @@ void initPlayer(GameState *g)
     newPlayer->bag->print = printItem;
     newPlayer->bag->freeData = freeItem;
     newPlayer->bag->root = NULL;
+    newPlayer->bag = createBST(compareItems, printItem, freeItem);
+    newPlayer->defeatedMonsters = createBST(compareMonsters, printMonster, freeMonster);
 
     newPlayer->defeatedMonsters = (BST *)malloc(sizeof(BST));
     newPlayer->defeatedMonsters->root = NULL;
