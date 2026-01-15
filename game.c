@@ -729,7 +729,7 @@ void openBag(GameState *g)
 {
     printf("=== INVENTORY ===\n");
     BST *bag = g->player->bag;
-    if (bag == NULL)
+    if (bag == NULL || bag->root == NULL)
     {
         printf("        Empty");
         return;
